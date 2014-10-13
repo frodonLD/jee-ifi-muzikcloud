@@ -6,6 +6,7 @@ import org.ifi.com.muzikKloud.entity.Song;
 import org.ifi.com.muzikKloud.service.AlbumService;
 import org.ifi.com.muzikKloud.service.SongService;
 import org.ifi.com.muzikKloud.serviceImpl.SongServiceImpl;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -13,16 +14,17 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 public class HomeController {
-	
+	@Autowired
+	private SongService songService;
+
 	@RequestMapping("/")
 	public String welcome(){
 		return"home";
-	}
+	}    
 	
 	@RequestMapping("/songs")
 	public String showAllsong( Model model){
-		//SongService songService = new SongServiceImpl();
-		List<Song> allSongs = songServiceImpl.getLastSongsAdded(0);
+		List<Song> allSongs = songService.getLastSongsAdded(0);
 		System.out.println(allSongs);
 		model.addAttribute("songs", allSongs );
 		return"songs";

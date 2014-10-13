@@ -9,7 +9,15 @@
 </head>
 <body>
 
-test
+<table>
+	<c:forEach var="album" items="${albums}">
+		<tr>
+		    <td>
+		    	<c:out value="${album.getTitre()}" /><br>
+		    </td>
+		</tr>
+	</c:forEach>
+</table>
 	
 </body>
 </html>
