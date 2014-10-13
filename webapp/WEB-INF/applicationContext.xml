@@ -1,0 +1,26 @@
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xmlns:context="http://www.springframework.org/schema/context"
+    xsi:schemaLocation="
+        http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context.xsd">
+          
+	<context:annotation-config />
+	<context:component-scan base-package="org.ifi.com.muzikKloud" />
+	<context:component-scan base-package="org.ifi.com.muzikKloud.dao" />
+	<context:component-scan base-package="org.ifi.com.muzikKloud.daoImpl" />
+	<context:component-scan base-package="org.ifi.com.muzikKloud.service" />
+	<context:component-scan base-package="org.ifi.com.muzikKloud.serviceImpl" />
+	<context:component-scan base-package="org.ifi.com.muzikKloud.controller" />
+	
+	<bean id="jspViewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+        <property name="cache" value="true"/>
+    	<property name="prefix" value="/WEB-INF/pages/"/>
+   		<property name="suffix" value=".jsp"/>
+	</bean>	
+
+</beans>
