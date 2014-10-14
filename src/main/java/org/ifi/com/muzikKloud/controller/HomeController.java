@@ -3,9 +3,7 @@ package org.ifi.com.muzikKloud.controller;
 import java.util.List;
 
 import org.ifi.com.muzikKloud.entity.Song;
-import org.ifi.com.muzikKloud.service.AlbumService;
 import org.ifi.com.muzikKloud.service.SongService;
-import org.ifi.com.muzikKloud.serviceImpl.SongServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

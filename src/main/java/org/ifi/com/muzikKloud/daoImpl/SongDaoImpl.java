@@ -10,7 +10,6 @@ import javax.persistence.Query;
 
 import org.ifi.com.muzikKloud.dao.SongDao;
 import org.ifi.com.muzikKloud.entity.Song;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 @Repository
@@ -70,6 +69,7 @@ public class SongDaoImpl implements SongDao {
 		query.executeUpdate();
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public List<Song> getLastSongsAdded(int limit) {
 		// TODO Auto-generated method stub
