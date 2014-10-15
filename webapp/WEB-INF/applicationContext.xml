@@ -22,5 +22,23 @@
     	<property name="prefix" value="/WEB-INF/pages/"/>
    		<property name="suffix" value=".jsp"/>
 	</bean>	
+	
+	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource"
+        p:driverClassName="com.mysql.jdbc.Driver" p:url="jdbc:mysql://localhost:3306/muzikkloud"
+        p:username="root" p:password="kazastan" p:initialSize="5" p:maxActive="10">
+    </bean>
+ 
+    <bean
+        class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean"
+        id="entityManagerFactory">
+        <property name="dataSource" ref="dataSource" />
+    </bean>
+ 
+    <bean class="org.springframework.orm.jpa.JpaTransactionManager"
+        id="transactionManager">
+        <property name="entityManagerFactory" ref="entityManagerFactory" />
+    </bean>
+ 
+    <tx:annotation-driven mode="aspectj" transaction-manager="transactionManager" />
 
 </beans>
