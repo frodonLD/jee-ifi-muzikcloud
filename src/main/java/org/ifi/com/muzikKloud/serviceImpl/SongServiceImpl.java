@@ -56,8 +56,7 @@ public class SongServiceImpl implements SongService {
 	public List<Song> getLastSongsAdded(int limit) {
 		// TODO Auto-generated method stub
 		System.out.println("SERVICE");
-		this.songDao.getLastSongsAdded(limit);
-		return null;
+		return this.songDao.getLastSongsAdded(limit);
 	}
 
 }

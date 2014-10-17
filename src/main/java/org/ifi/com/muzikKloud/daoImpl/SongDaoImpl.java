@@ -74,10 +74,13 @@ public class SongDaoImpl implements SongDao {
 	public List<Song> getLastSongsAdded(int limit) {
 		// TODO Auto-generated method stub
 		System.out.println("DAO");
-		String req = "select s from song";
+		String req = "from Song";
 		Query query = this.entityManager.createQuery(req);
-		query.setParameter(1, limit);
-		return (List<Song>) query.getResultList();
+		//query.setParameter(1, limit);
+		System.out.println("QUERY CREATED");
+		List<Song> temp = query.getResultList();
+		System.out.println("RESULT DAO ==> "+temp);
+		return temp;
 	}
 
 }

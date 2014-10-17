@@ -18,9 +18,9 @@
 			<li><a href="#">Albums</a></li>
 			<li><a href="#">Genres</a></li>
 			<li><a href="songs">Toutes les chansons</a></li>
-			<li><a href="#">Gus&Frodon</a></li>
+			<li><a href="#">Gus et Frodon</a></li>
 		</ul>
 	</header><!-- // end #header -->
-	
+</div>	
 </body>
 </html>

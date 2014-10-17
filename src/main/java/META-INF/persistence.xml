@@ -1,23 +1,35 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <persistence version="2.1" xmlns="http://xmlns.jcp.org/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
-	<persistence-unit name="MuzikKloud">
+
+	<persistence-unit name="MuzikKloud" transaction-type="RESOURCE_LOCAL"> 
+		<!--  
+		<provider>org.hibernate.javax.persistence</provider>
+		<properties> 
+            <property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver"/>
+            <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/muzikkloud"/>
+            <property name="javax.persistence.jdbc.user" value="root"/>
+            <property name="javax.persistence.jdbc.password" value="kazastan" />
+        </properties>
+		-->
+		
 		<provider>
-			org.eclipse.persistence.jpa.PersistenceProvider
+			org.hibernate.ejb.HibernatePersistence
 		</provider>
+		
 		<class>org.ifi.com.muzikKloud.entity.Album</class>
 		<class>org.ifi.com.muzikKloud.entity.Artist</class>
 		<class>org.ifi.com.muzikKloud.entity.Commentaire</class>
 		<class>org.ifi.com.muzikKloud.entity.Genre</class>
 		<class>org.ifi.com.muzikKloud.entity.Song</class>
-		<class>org.ifi.com.muzikKloud.entity.User</class>
-		 
+		<class>org.ifi.com.muzikKloud.entity.User</class> 
+		
+		
 	    <properties>
-	    	<property name="eclipselink.logging.level" value="FINE" />
-            <property name="eclipselink.jdbc.driver" value="com.mysql.jdbc.Drive" />
-            <property name="eclipselink.jdbc.url" value="jdbc:mysql://localhost:3306/muzikkloud" />
-            <property name="eclipselink.jdbc.user" value="root"/>
-            <property name="eclipselink.jdbc.password" value="kazastan" />
-        </properties>	
-        
+	        <property name="hibernate.dialect" value="org.hibernate.dialect.MySQL5InnoDBDialect"/>
+	        <property name="hibernate.hbm2ddl.auto" value="validate"/>
+	        <property name="hibernate.ejb.naming_strategy" value="org.hibernate.cfg.ImprovedNamingStrategy"/>
+	        <property name="hibernate.connection.charSet" value="UTF-8"/>
+	    </properties>
+	    
 	</persistence-unit>
 </persistence>
