@@ -1,5 +1,7 @@
 package org.ifi.com.muzikKloud.serviceImpl;
 
+import java.util.List;
+
 import org.ifi.com.muzikKloud.dao.ArtistDao;
 import org.ifi.com.muzikKloud.entity.Artist;
 import org.ifi.com.muzikKloud.service.ArtistService;
@@ -32,6 +34,13 @@ public class ArtistServiceImpl implements ArtistService {
 	}
 	
 	@Override
+	public List<Artist> getAllArtists() {
+		// TODO Auto-generated method stub
+		System.out.println("ARTIST SERVICE");
+		return artistDao.getAllArtist();
+	}
+	
+	@Override
 	public void updateArtist(int id, String name) {
 		// TODO Auto-generated method stub
 		Artist a = new Artist();
@@ -51,5 +60,7 @@ public class ArtistServiceImpl implements ArtistService {
 		// TODO Auto-generated method stub
 		return this.artistDao.getArtist(a.getName()) != null;
 	}
+
+	
 	
 }

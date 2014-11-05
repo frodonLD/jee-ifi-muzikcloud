@@ -1,0 +1,23 @@
+<!DOCTYPE html>  
+<html xmlns:th="http://www.thymeleaf.org"> 
+	<head th:include="common/layout::head">
+	</head>
+	<body>
+		<nav th:include="common/layout::nav">
+		</nav>
+	
+		<div class="container">
+			<p th:text="${song.id}"></p>  
+	        <p th:text="${song.getTitre()}"></p>
+	        <p th:text="${song.getDateParution()}"></p> 
+	        <p th:text="${song.getLink()}"></p>
+	        <!-- Display the audio player with control buttons. -->
+		    <audio controls="" autoplay="" loop="" th:src="@{ressources/audios/baponga.mp3}">
+		  		HTML5 audio not supported
+		    </audio>
+		</div>
+		
+		 	
+	
+	</body>
+</html>

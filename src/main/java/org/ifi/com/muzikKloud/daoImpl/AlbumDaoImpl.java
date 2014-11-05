@@ -8,6 +8,7 @@ import javax.persistence.Query;
 
 import org.ifi.com.muzikKloud.dao.AlbumDao;
 import org.ifi.com.muzikKloud.entity.Album;
+import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Repository;
 
 @Repository
@@ -17,13 +18,13 @@ public class AlbumDaoImpl implements AlbumDao {
 	private EntityManager entityManager;
 
 	@Override
-	public void addAlbum(Album a) {
+	public void addAlbum(Album a) throws DataAccessException{
 		// TODO Auto-generated method stub
 		this.entityManager.persist(a);
 		
 	}
 	@Override
-	public Album getAlbum(int id) {
+	public Album getAlbum(int id) throws DataAccessException{
 		// TODO Auto-generated method stub
 				String req = "select a from album where a.id = ?";
 				Query query = this.entityManager.createQuery(req);
@@ -32,7 +33,7 @@ public class AlbumDaoImpl implements AlbumDao {
 	}
 
 	@Override
-	public void updateAlbum(int id, String titre) {
+	public void updateAlbum(int id, String titre) throws DataAccessException{
 		// TODO Auto-generated method stub
 				String req = "update table album set titre = ? where id = ? ";
 				Query query = this.entityManager.createQuery(req);
@@ -42,7 +43,7 @@ public class AlbumDaoImpl implements AlbumDao {
 	}
 	
 	@Override
-	public void deleteAlbum(int id) {
+	public void deleteAlbum(int id) throws DataAccessException{
 		// TODO Auto-generated method stub
 				String req = "delete from album where id = ? ";
 				Query query = this.entityManager.createQuery(req);

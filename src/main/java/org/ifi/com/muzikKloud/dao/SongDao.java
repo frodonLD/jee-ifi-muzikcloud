@@ -5,13 +5,14 @@ import java.util.Date;
 import java.util.List;
 
 import org.ifi.com.muzikKloud.entity.Song;
+import org.springframework.dao.DataAccessException;
 
 public interface SongDao {
-	public void addSong(Song s);
-	public Song getSong(int id);
-	public void updateSong(int id, String titre);
-	public void updateSong(int id, Date date_parution);
-	public void updateSong(int id, String titre, Date date_parution);
-	public List<Song> getLastSongsAdded(int limit);
-	public void deleteSong(int id);
+	public void addSong(Song s) throws DataAccessException;
+	public Song getSong(int id) throws DataAccessException;
+	public void updateSong(int id, String titre) throws DataAccessException;
+	public void updateSong(int id, Date date_parution) throws DataAccessException;
+	public void updateSong(int id, String titre, Date date_parution) throws DataAccessException;
+	public List<Song> getLastSongsAdded(int limit) throws DataAccessException;
+	public void deleteSong(int id) throws DataAccessException;
 }

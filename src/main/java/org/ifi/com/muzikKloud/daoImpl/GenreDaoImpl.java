@@ -6,6 +6,7 @@ import javax.persistence.Query;
 
 import org.ifi.com.muzikKloud.dao.GenreDao;
 import org.ifi.com.muzikKloud.entity.Genre;
+import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Repository;
 
 @Repository
@@ -15,13 +16,13 @@ public class GenreDaoImpl implements GenreDao {
 	private EntityManager entityManager;
 	
 	@Override
-	public void addGenre(Genre g) {
+	public void addGenre(Genre g) throws DataAccessException{
 		// TODO Auto-generated method stub
 		this.entityManager.persist(g);
 	}
 
 	@Override
-	public Genre getGenre(int id) {
+	public Genre getGenre(int id) throws DataAccessException{
 		// TODO Auto-generated method stub
 		String req = "select g from genre where g.id = ?";
 		Query query = this.entityManager.createQuery(req);
@@ -30,7 +31,7 @@ public class GenreDaoImpl implements GenreDao {
 	}
 	
 	@Override
-	public Genre getGenre(String name) {
+	public Genre getGenre(String name) throws DataAccessException{
 		// TODO Auto-generated method stub
 		String req = "select g from genre where g.name = ?";
 		Query query = this.entityManager.createQuery(req);
@@ -39,7 +40,7 @@ public class GenreDaoImpl implements GenreDao {
 	}
 
 	@Override
-	public void updateGenre(int id, String name) {
+	public void updateGenre(int id, String name) throws DataAccessException{
 		// TODO Auto-generated method stub
 		String req = "update table genre set name = ? where id = ? ";
 		Query query = this.entityManager.createQuery(req);
@@ -49,7 +50,7 @@ public class GenreDaoImpl implements GenreDao {
 	}
 
 	@Override
-	public void deleteGenre(int id) {
+	public void deleteGenre(int id) throws DataAccessException{
 		// TODO Auto-generated method stub
 		String req = "delete from genre where id = ? ";
 		Query query = this.entityManager.createQuery(req);

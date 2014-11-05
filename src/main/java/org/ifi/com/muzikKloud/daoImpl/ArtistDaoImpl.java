@@ -1,12 +1,16 @@
 package org.ifi.com.muzikKloud.daoImpl;
 
+import java.util.List;
+
 import javax.persistence.Query;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 import org.ifi.com.muzikKloud.dao.ArtistDao;
 import org.ifi.com.muzikKloud.entity.Artist;
+import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 @Repository
 public class ArtistDaoImpl implements ArtistDao {
@@ -15,13 +19,18 @@ public class ArtistDaoImpl implements ArtistDao {
 	private EntityManager entityManager;
 
 	@Override
-	public void addArtist(Artist a) {
+	@Transactional(readOnly = false)
+	public void addArtist(Artist a) throws DataAccessException{
 		// TODO Auto-generated method stub
+		System.out.println("ARTISTE ==>"+a);
+		System.out.println("ARTISTE_ID ==>"+a.getId());
+		System.out.println("ARTISTE_NAME ==>"+a.getName());
 		this.entityManager.persist(a);
 	}
 
 	@Override
-	public void updateArtist(int id, String name) {
+	@Transactional
+	public void updateArtist(int id, String name) throws DataAccessException{
 		// TODO Auto-generated method stub
 		String req = "update table artist set name = ? where id = ? ";
 		Query query = this.entityManager.createQuery(req);
@@ -31,7 +40,7 @@ public class ArtistDaoImpl implements ArtistDao {
 	}
 
 	
-	public Artist getArtist(int id) {
+	public Artist getArtist(int id) throws DataAccessException{
 		// TODO Auto-generated method stub
 		String req = "select a from artist  where a.id = ? ";
 		Query query = this.entityManager.createQuery(req);
@@ -39,22 +48,41 @@ public class ArtistDaoImpl implements ArtistDao {
 		return (Artist) query.getSingleResult();
 	}
 	
-	@Override
-	public Artist getArtist(String name) {
+	
+	public Artist getArtist(String name) throws DataAccessException{
 		// TODO Auto-generated method stub
-		String req = "select a from artist  where a.name = ? ";
+		String req = "select a from Artist a  where a.name = ? ";
 		Query query = this.entityManager.createQuery(req);
 		query.setParameter(1, name);
-		return (Artist) query.getSingleResult();
+		try{
+			return (Artist) query.getSingleResult();
+		}catch(Exception e){
+			return null;
+		}
+		
+	}
+	
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Artist> getAllArtist() throws DataAccessException{
+		// TODO Auto-generated method stub
+		System.out.println("ARTIST DAO");
+		Query query = this.entityManager.createNamedQuery("Artist.findAll");
+		List<Artist> result = (List<Artist>) query.getResultList();
+		System.out.println(result);
+		return result;
 	}
 
 	@Override
-	public void deleteArtist(int id) {
+	@Transactional
+	public void deleteArtist(int id) throws DataAccessException{
 		// TODO Auto-generated method stub
 		String req = "delete from artist where id = ? ";
 		Query query = this.entityManager.createQuery(req);
 		query.setParameter(1, id);
 		query.executeUpdate();
 	}
+
+	
 
 }

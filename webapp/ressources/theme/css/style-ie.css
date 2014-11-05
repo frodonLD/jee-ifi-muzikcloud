@@ -1,3 +1,0 @@
-/*** Clearfix for IE ***/
-* html .clearfix { zoom: 1; } /* IE6 */
-*:first-child+html .clearfix { zoom: 1; } /* IE7 */

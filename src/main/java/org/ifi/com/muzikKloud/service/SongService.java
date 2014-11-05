@@ -13,13 +13,14 @@ public interface SongService {
 	public void updateSong(int id, String titre);
 	public void updateSong(Date dateParution);
 	public void updateSong(int id, String titre, Date dateParution);
-	public Song getSong(int id);
 	public List<Commentaire> getCommentairesOf(int id_song);
 	public List<Song> getSongsWithTitleLike(String word);
 	public List<Song> getSongsWithArtistLike(String name);
 	public List<Song> getSongsOf(int id_artist);
 	public List<Song> getSongsOfAlbum(int id_alb);
 	public List<Song> getSongsOfGenre(int id_genre);*/
+	
+	public Song getSong(int id);
 	public List<Song> getLastSongsAdded(int limit);
 	//public void commentSong(int id_song, String authorname, String content);
 }

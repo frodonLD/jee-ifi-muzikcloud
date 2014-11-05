@@ -1,0 +1,38 @@
+<!DOCTYPE html>  
+<html xmlns:th="http://www.thymeleaf.org"> 
+	<head th:include="common/layout::head">  
+	</head>
+	<body>
+		<div class="container">
+			<nav th:include="common/layout::nav">
+			</nav>
+	
+		
+			<table class="table table-condensed">  
+	    		<thead>  
+				    <tr>  
+				        <th>Id#</th>  
+				        <th>Nom</th> 
+				        <th>Date</th>  
+				        <th>Lien</th>
+				        <th>Artistes</th>    
+				    </tr>  
+			    </thead>  
+			    <tbody>  
+				    <tr th:each="song : ${lastSongs}">  
+				        <td th:text="${song.id}"></td>  
+				        <td th:text="${song.titre}"></td> <!--  , getArtists()-->
+				        <td th:text="${song.dateParution}"></td> 
+				        <td><a th:text="${song.link}" th:href="${'song?id='+song.getId()}"></a></td> 
+				        <!--<td>
+				        	<ul th:each="artist : ${song.artists}">
+				        		<li th:text="${artist.name}"></li> 
+				        	</ul>
+				        </td> -->
+				    </tr>  
+			    </tbody>  
+			</table>
+		</div>
+	
+	</body>
+</html>

@@ -52,11 +52,20 @@ public class SongServiceImpl implements SongService {
 		
 	}
 
+	
+	@Override
+	public Song getSong(int id) {
+		// TODO Auto-generated method stub
+		return this.songDao.getSong(id);
+	}
+	
 	@Override
 	public List<Song> getLastSongsAdded(int limit) {
 		// TODO Auto-generated method stub
 		System.out.println("SERVICE");
 		return this.songDao.getLastSongsAdded(limit);
 	}
+
+	
 
 }

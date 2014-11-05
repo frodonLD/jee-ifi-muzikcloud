@@ -1,0 +1,21 @@
+<!DOCTYPE html>  
+<html xmlns:th="http://www.thymeleaf.org"> 
+	<head th:include="common/layoutAdmin::head">  
+	</head>
+	<body>
+		<div class="container">
+			<nav th:include="common/layoutAdmin::nav">
+			</nav>
+			
+			<form method="post" modelAttribute="artist">
+				<label  for="name">Nom de l'artiste</label>
+				<input type="text" name="name"/>
+				<input type="submit" value="valider"/>
+			</form>
+	
+		
+			
+		</div>
+	
+	</body>
+</html>

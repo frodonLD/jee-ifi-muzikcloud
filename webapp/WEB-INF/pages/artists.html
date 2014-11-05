@@ -1,0 +1,28 @@
+<!DOCTYPE html>  
+<html xmlns:th="http://www.thymeleaf.org"> 
+	<head th:include="common/layout::head">  
+	</head>
+	<body>
+		<div class="container">
+			<nav th:include="common/layout::nav">
+			</nav>
+	
+		
+			<table class="table table-condensed">  
+	    		<thead>  
+				    <tr>  
+				        <th>Id#</th>  
+				        <th>Nom</th> 
+				    </tr>  
+			    </thead>  
+			    <tbody>  
+				    <tr th:each="artist : ${allArtists}">  
+				        <td th:text="${artist.id}"></td>  
+				        <td th:text="${artist.name}"></td>
+				    </tr>  
+			    </tbody>  
+			</table>
+		</div>
+	
+	</body>
+</html>
