@@ -65,11 +65,13 @@ xmlns="http://www.springframework.org/schema/beans"
     	<property name="dataSource" ref="mysqlDataSource"/>
     </bean>
     
-	<context:spring-configured />
+    <tx:annotation-driven mode="proxy"/>
+    
     
 
 
 <!--
+	<context:spring-configured />
 	<bean id="entityManagerFactory"
 	    class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean"
 	    p:dataSource-ref="mysqlDataSource" />

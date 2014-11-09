@@ -8,6 +8,8 @@ import org.ifi.com.muzikKloud.dao.CommentaireDao;
 import org.ifi.com.muzikKloud.entity.Commentaire;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 @Repository
 public class CommentaireDaoImpl implements CommentaireDao {
@@ -16,6 +18,7 @@ public class CommentaireDaoImpl implements CommentaireDao {
 	private EntityManager entityManager;
 	
 	@Override
+	@Transactional(propagation = Propagation.REQUIRED) 
 	public void addCommentaire(Commentaire c) throws DataAccessException{
 		// TODO Auto-generated method stub
 		this.entityManager.persist(c);

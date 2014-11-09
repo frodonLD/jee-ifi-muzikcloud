@@ -8,6 +8,8 @@ import org.ifi.com.muzikKloud.dao.UserDao;
 import org.ifi.com.muzikKloud.entity.User;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 @Repository
 public class UserDaoImpl implements UserDao {
@@ -16,6 +18,7 @@ public class UserDaoImpl implements UserDao {
 	private EntityManager entityManager;
 	
 	@Override
+	@Transactional(propagation = Propagation.REQUIRED) 
 	public void addUser(User u) throws DataAccessException{
 		// TODO Auto-generated method stub
 		this.entityManager.persist(u);
@@ -23,6 +26,7 @@ public class UserDaoImpl implements UserDao {
 	}
 
 	@Override
+	@Transactional(propagation = Propagation.REQUIRED) 
 	public void updateUser(String login, String newPass) throws DataAccessException{
 		// TODO Auto-generated method stub
 		String req = "update table user set password = ? where login = ? ";

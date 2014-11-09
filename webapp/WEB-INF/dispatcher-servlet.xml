@@ -17,7 +17,7 @@ xmlns="http://www.springframework.org/schema/beans"
           
           
 	<context:annotation-config />
-	<context:component-scan base-package="org.ifi.com.muzikKloud" />
+	<context:component-scan base-package="org.ifi.com.muzikKloud.controller" />
 	
 	<!-- Base templater view resolver 
 	<bean id="jspViewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">

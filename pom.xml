@@ -34,6 +34,8 @@
 	      <groupId>org.springframework</groupId>
 	      <artifactId>spring-tx</artifactId>
 	    </dependency>
+	    
+	    
 
          
         <dependency>
@@ -80,6 +82,19 @@
 			<version>1.0.0.Final</version>
 		</dependency>
 		
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-core</artifactId>
+			<version>4.3.6.Final</version>
+		</dependency>
+		
+		<dependency>
+		   <groupId>org.hibernate</groupId>
+		   <artifactId>hibernate-entitymanager</artifactId>
+		   <version>4.3.6.Final</version><!--$NO-MVN-MAN-VER$-->
+		</dependency>
+		
+		
 		
 		
 		
@@ -91,10 +106,7 @@
 			<version>2.1.3.RELEASE</version>
 		</dependency>
 		
-		<dependency>
-		   <groupId>org.hibernate</groupId>
-		   <artifactId>hibernate-entitymanager</artifactId>
-		</dependency>
+		
 		
         <dependency>
 			<groupId>mysql</groupId>

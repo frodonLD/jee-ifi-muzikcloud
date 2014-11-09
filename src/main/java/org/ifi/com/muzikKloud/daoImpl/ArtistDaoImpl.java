@@ -6,11 +6,14 @@ import javax.persistence.Query;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
+
 import org.ifi.com.muzikKloud.dao.ArtistDao;
 import org.ifi.com.muzikKloud.entity.Artist;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+
 
 @Repository
 public class ArtistDaoImpl implements ArtistDao {
@@ -19,7 +22,7 @@ public class ArtistDaoImpl implements ArtistDao {
 	private EntityManager entityManager;
 
 	@Override
-	@Transactional(readOnly = false)
+	@Transactional(propagation = Propagation.REQUIRED) 
 	public void addArtist(Artist a) throws DataAccessException{
 		// TODO Auto-generated method stub
 		System.out.println("ARTISTE ==>"+a);
@@ -29,7 +32,7 @@ public class ArtistDaoImpl implements ArtistDao {
 	}
 
 	@Override
-	@Transactional
+	@Transactional(propagation = Propagation.REQUIRED) 
 	public void updateArtist(int id, String name) throws DataAccessException{
 		// TODO Auto-generated method stub
 		String req = "update table artist set name = ? where id = ? ";
@@ -74,7 +77,7 @@ public class ArtistDaoImpl implements ArtistDao {
 	}
 
 	@Override
-	@Transactional
+	@Transactional(propagation = Propagation.REQUIRED) 
 	public void deleteArtist(int id) throws DataAccessException{
 		// TODO Auto-generated method stub
 		String req = "delete from artist where id = ? ";

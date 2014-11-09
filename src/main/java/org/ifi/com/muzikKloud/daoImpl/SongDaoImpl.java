@@ -12,6 +12,8 @@ import org.ifi.com.muzikKloud.dao.SongDao;
 import org.ifi.com.muzikKloud.entity.Song;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 @Repository
 public class SongDaoImpl implements SongDao {
@@ -20,6 +22,7 @@ public class SongDaoImpl implements SongDao {
 	private EntityManager entityManager;
 	
 	@Override
+	@Transactional(propagation = Propagation.REQUIRED) 
 	public void addSong(Song s) throws DataAccessException{
 		// TODO Auto-generated method stub
 		this.entityManager.persist(s);
@@ -35,6 +38,7 @@ public class SongDaoImpl implements SongDao {
 	}
 
 	@Override
+	@Transactional(propagation = Propagation.REQUIRED) 
 	public void updateSong(int id, String titre) throws DataAccessException{
 		// TODO Auto-generated method stub
 		String req = "update table song set titre = ? where id = ? ";
@@ -45,6 +49,7 @@ public class SongDaoImpl implements SongDao {
 	}
 
 	@Override
+	@Transactional(propagation = Propagation.REQUIRED) 
 	public void updateSong(int id, Date date_parution) throws DataAccessException{
 		// TODO Auto-generated method stub
 		String req = "update table song set date_parution = ? where id = ? ";
@@ -55,6 +60,7 @@ public class SongDaoImpl implements SongDao {
 	}
 
 	@Override
+	@Transactional(propagation = Propagation.REQUIRED) 
 	public void updateSong(int id, String titre, Date date_parution) throws DataAccessException{
 		// TODO Auto-generated method stub
 		this.updateSong(id, date_parution);
@@ -62,6 +68,7 @@ public class SongDaoImpl implements SongDao {
 	}
 
 	@Override
+	@Transactional(propagation = Propagation.REQUIRED) 
 	public void deleteSong(int id) throws DataAccessException{
 		// TODO Auto-generated method stub
 		String req = "delete from song where id = ? ";

@@ -8,6 +8,8 @@ import org.ifi.com.muzikKloud.dao.GenreDao;
 import org.ifi.com.muzikKloud.entity.Genre;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 @Repository
 public class GenreDaoImpl implements GenreDao {
@@ -16,6 +18,7 @@ public class GenreDaoImpl implements GenreDao {
 	private EntityManager entityManager;
 	
 	@Override
+	@Transactional(propagation = Propagation.REQUIRED) 
 	public void addGenre(Genre g) throws DataAccessException{
 		// TODO Auto-generated method stub
 		this.entityManager.persist(g);
@@ -40,6 +43,7 @@ public class GenreDaoImpl implements GenreDao {
 	}
 
 	@Override
+	@Transactional(propagation = Propagation.REQUIRED) 
 	public void updateGenre(int id, String name) throws DataAccessException{
 		// TODO Auto-generated method stub
 		String req = "update table genre set name = ? where id = ? ";
@@ -50,6 +54,7 @@ public class GenreDaoImpl implements GenreDao {
 	}
 
 	@Override
+	@Transactional(propagation = Propagation.REQUIRED) 
 	public void deleteGenre(int id) throws DataAccessException{
 		// TODO Auto-generated method stub
 		String req = "delete from genre where id = ? ";
