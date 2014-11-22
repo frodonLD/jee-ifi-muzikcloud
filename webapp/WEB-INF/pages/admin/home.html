@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:include="/common/layout::head">
+</head>
+<body>
+	<div class="container" sec:authorize="hasRole('ROLE_ADMIN')">
+		<nav th:include="/common/layout::nav"></nav>
+		<h1>ADMIN HOME</h1>
+		<a th:href="@{/j_spring_security_logout}">LOGOUT</a>
+
+	</div>
+
+</body>
+</html>

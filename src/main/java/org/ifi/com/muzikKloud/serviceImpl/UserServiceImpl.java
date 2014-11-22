@@ -12,15 +12,15 @@ public class UserServiceImpl implements UserService {
 	@Autowired
 	private UserDao userDao;
 	
-	private final int adminFlag = 1; 
+	private final String adminFlag = "ROLE_ADMIN"; 
 	
 	@Override
-	public void addUser(String login, String password, int type) {
+	public void addUser(String login, String password, String role) {
 		// TODO Auto-generated method stub
 		User u = new User();
 		u.setLogin(login);
 		u.setPassword(password);
-		u.setType(type);
+		u.setRole(role);
 		this.userDao.addUser(u);
 	}
 
@@ -33,7 +33,7 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public boolean isAdmin(User u) {
 		// TODO Auto-generated method stub
-		return this.adminFlag == u.getType();
+		return this.adminFlag.equals(u.getRole());
 	}
 
 }

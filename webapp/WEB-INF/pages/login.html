@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:include="common/layout::head">
+</head>
+<body>
+	<div class="container">
+		<nav th:include="common/layout::nav"></nav>
+		<form name='loginForm'
+			 th:action="@{/j_spring_security_check}" method='POST'>
+
+			<table>
+				<tr>
+					<td>User:</td>
+					<td><input type='text' name='login'></input></td>
+				</tr>
+				<tr>
+					<td>Password:</td>
+					<td><input type='password' name='password'></input></td>
+				</tr>
+				<tr>
+					<td colspan='2'><input name="submit" type="submit"
+						value="submit"></input></td>
+				</tr>
+			</table>
+
+			<input type="hidden" th:name="${_csrf.parameterName}"
+				th:value="${_csrf.token}"></input>
+
+		</form>
+	</div>
+
+</body>
+</html>

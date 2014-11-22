@@ -19,15 +19,6 @@ xmlns="http://www.springframework.org/schema/beans"
 	<context:annotation-config />
 	<context:component-scan base-package="org.ifi.com.muzikKloud.controller" />
 	
-	<!-- Base templater view resolver 
-	<bean id="jspViewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
-        <property name="cache" value="true"/>
-    	<property name="prefix" value="/WEB-INF/pages/"/>
-   		<property name="suffix" value=".jsp"/>
-	</bean>	
-	-->
-	
-	
 	<!-- ThymeLeaf Templater -->
 	<bean id="templateResolver" class="org.thymeleaf.templateresolver.ServletContextTemplateResolver">
 	  <property name="prefix" value="/WEB-INF/pages/" />
@@ -35,11 +26,11 @@ xmlns="http://www.springframework.org/schema/beans"
 	  <property name="templateMode" value="HTML5" />
 	</bean>
 	
-	<bean id="templateEngine" class="org.thymeleaf.spring3.SpringTemplateEngine">
+	<bean id="templateEngine" class="org.thymeleaf.spring4.SpringTemplateEngine">
 	  <property name="templateResolver" ref="templateResolver" />
 	</bean>
 	
-	<bean class="org.thymeleaf.spring3.view.ThymeleafViewResolver">  
+	<bean class="org.thymeleaf.spring4.view.ThymeleafViewResolver">  
         <property name="templateEngine" ref="templateEngine" />  
     </bean> 
     

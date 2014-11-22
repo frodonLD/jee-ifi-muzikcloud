@@ -21,7 +21,7 @@ public class User implements Serializable {
 
 	private String password;
 
-	private int type;
+	private String role;
 
 	public User() {
 	}
@@ -50,12 +50,12 @@ public class User implements Serializable {
 		this.password = password;
 	}
 
-	public int getType() {
-		return this.type;
+	public String getRole() {
+		return this.role;
 	}
 
-	public void setType(int type) {
-		this.type = type;
+	public void setRole(String role) {
+		this.role = role;
 	}
 
 }
