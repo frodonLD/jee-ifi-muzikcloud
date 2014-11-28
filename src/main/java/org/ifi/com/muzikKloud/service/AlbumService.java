@@ -1,5 +1,7 @@
 package org.ifi.com.muzikKloud.service;
 
+import java.util.List;
+
 import org.ifi.com.muzikKloud.entity.Album;
 
 public interface AlbumService {
@@ -7,4 +9,5 @@ public interface AlbumService {
 	public Album getAlbum(int id);
 	public void updateAlbum(int id, String titre);
 	public void deleteAlbum(int id);
+	public List<Album> getAllAlbums();
 }

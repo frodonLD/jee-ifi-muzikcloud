@@ -5,15 +5,92 @@
 <body>
 	<div class="container" sec:authorize="hasRole('ROLE_ADMIN')">
 		<nav th:include="/common/layoutAdmin::nav"></nav>
-		<p th:if="${msg}" th:text="${msg}"></p>
-		<form th:action="@{/admin/addsongs}"
-			method="post" enctype="multipart/form-data">
-			<input type="file" name="file" /> 
-			<input type="file" name="file" /> 
-			<!--  <input type="hidden" th:name="${_csrf.parameterName}"
-				th:value="${_csrf.token}"></input>-->
-			<input type="submit" />
-		</form>
+		
+		<div class= "notifications col-md-12" th:if="${error} == true">
+			<span class="error" th:if="${msg}" th:text="${msg}"></span>
+		</div>
+		<div class= "notifications col-md-12" th:if="${error} == false">
+			<span class="success" th:if="${msg}" th:text="${msg}"></span>
+		</div>
+		
+		<div th:if="${error} == false" class="header col-md-12">
+			<h3>Ajouter de la musique</h3>
+			<h4>Veuillez indiquer les informations relatives aux musiques que vous venez d'uploader</h4>
+		</div>
+		
+		<div th:if="${error} == false" class="content col-md-12">
+			<form id="uploadForm" th:action="@{/admin/addsongs}" method="post">
+				<div class="col-md-12 content-to-add" th:each="s: ${songTmp}" th:with="nb=${#ids.seq('id')}">
+					<input type="hidden" class="file" th:name="${'fichier_'+nb}" th:value="${s.fichier}"/>
+					<input type="hidden" class="listOfGenre" th:name="${'genreList_'+nb}" th:value="${s.fichier}"/>
+					<input type="hidden" class="listOfArtist" th:name="${'artistList_'+nb}" th:value="${s.artiste}"/>
+					<input type="hidden" th:name="${'date_'+nb}" th:value="${s.date}"/>
+					
+					<p><span class="songAttribute">Fichier :</span> <span th:text="${s.titre}"></span></p>
+					<p>
+						<span class="songAttribute">Titre :</span> 
+						<input type="text" class="title" th:name="${'titre_'+nb}" th:value="${s.titre}"></input>
+					</p>
+					<p><span class="songAttribute">Année :</span> 
+						<input type="number" min="0" max="3000" class="year" th:name="${'date_'+nb}" th:value="${s.date}"></input>
+					</p>
+					
+					<div class="col-md-2 artistOfSong artists">
+						<h5>Artiste:</h5>
+						<div class="box artistList">
+							<span data-tooltip="Supprimer" class="bubble removable" th:text="${s.artiste}"></span>
+						</div>
+					</div>
+					
+					<div class="col-md-2 allArtist artists" >
+						<h5>Tous les artistes:</h5>
+						<div class="box existingArtistList">
+							<span data-tooltip="Ajouter" class="bubble addable" th:each="a: ${allArtists}" th:text="${a.name}+' '"></span>
+						</div>
+						
+					</div>
+					
+					<div class="col-md-2 genreOfSong genres">
+						<h5>Genre:</h5>
+						<div class="box genreList">
+						</div>
+					</div>
+					
+					<div class="col-md-2 allGenre genres" >
+						<h5>Tous les genres:</h5>
+						<div class="box existingGenreList">
+							<span data-tooltip="Ajouter" class="bubble addable" th:each="g: ${allGenres}" th:text="${g.name}+' '"></span>
+						</div>
+						
+					</div>
+					
+					<div class="col-md-2 albumOfSong albums">
+						<h5>Album:</h5>
+						<div class="box albumList">
+						</div>
+					</div>
+					
+					<div class="col-md-2 allAlbum albums" >
+						<h5>Tous les albums:</h5>
+						<div class="box existingAlbumList">
+							<span data-tooltip="Ajouter" class="bubble addable" th:each="al: ${allAlbums}" th:text="${al.titre}+' '"></span>
+						</div>
+						
+					</div>
+				</div>
+				
+				
+				<div class="btn-group content col-md-12">
+					<button class="btn btn-default" type="submit">Mettre en ligne</button>
+				</div>
+				
+			</form>
+		</div>
+		<br/>
+		<br/>
+		<div class="btn-group content col-md-12" role="group" aria-label="Pagination">
+		  <button type="button" class="btn btn-default" ><a href="javascript:history.back();">Retour à l'étape précédente</a></button>
+		</div>
 	</div>
 </body>
 </html>

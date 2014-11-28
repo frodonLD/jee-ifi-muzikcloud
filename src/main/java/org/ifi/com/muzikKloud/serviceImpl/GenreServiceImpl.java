@@ -1,5 +1,7 @@
 package org.ifi.com.muzikKloud.serviceImpl;
 
+import java.util.List;
+
 import org.ifi.com.muzikKloud.dao.GenreDao;
 import org.ifi.com.muzikKloud.entity.Genre;
 import org.ifi.com.muzikKloud.service.GenreService;
@@ -50,6 +52,12 @@ public class GenreServiceImpl implements GenreService {
 	public boolean doesGenreExists(Genre g) {
 		// TODO Auto-generated method stub
 		return this.genreDao.getGenre(g.getName()) != null;
+	}
+
+	@Override
+	public List<Genre> getAllGenres() {
+		// TODO Auto-generated method stub
+		return this.genreDao.getAllGenres();
 	}
 
 }

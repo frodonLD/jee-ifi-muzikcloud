@@ -1,6 +1,8 @@
 package org.ifi.com.muzikKloud.serviceImpl;
 
 
+import java.util.List;
+
 import org.ifi.com.muzikKloud.dao.AlbumDao;
 import org.ifi.com.muzikKloud.entity.Album;
 import org.ifi.com.muzikKloud.service.AlbumService;
@@ -34,5 +36,11 @@ public class AlbumServiceImpl implements AlbumService {
 	public void deleteAlbum(int id) {
 		// TODO Auto-generated method stub
 		this.albumDao.deleteAlbum(id);
+	}
+
+	@Override
+	public List<Album> getAllAlbums() {
+		// TODO Auto-generated method stub
+		return this.albumDao.getAllAlbums();
 	}
 }

@@ -1,10 +1,13 @@
 package org.ifi.com.muzikKloud.daoImpl;
 
+import java.util.List;
+
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
 import org.ifi.com.muzikKloud.dao.GenreDao;
+import org.ifi.com.muzikKloud.entity.Artist;
 import org.ifi.com.muzikKloud.entity.Genre;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Repository;
@@ -61,6 +64,16 @@ public class GenreDaoImpl implements GenreDao {
 		Query query = this.entityManager.createQuery(req);
 		query.setParameter(1, id);
 		query.executeUpdate();
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Genre> getAllGenres() {
+		// TODO Auto-generated method stub
+		Query query = this.entityManager.createNamedQuery("Genre.findAll");
+		List<Genre> result = (List<Genre>) query.getResultList();
+		System.out.println(result);
+		return result;
 	}
 
 	

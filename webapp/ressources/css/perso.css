@@ -1,0 +1,71 @@
+.hearder {
+	*border: solid 2px silver;
+	*background: silver;
+	margin-bottom: 5px;
+	*padding: 2px;
+	border-radius: 3px;
+}
+
+.content {
+	border: solid 2px #fff;
+	*background: #F1FCF9;
+	margin-bottom: 5px;
+	*padding: auto;
+}
+
+.notifications {
+	font-size: 1em;
+	margin-bottom: 5px;
+}
+
+.content-to-add {
+	border: solid 1px black;
+}
+
+.artistOfSong, .allArtist,
+.genreOfSong, .allGenre,
+.albumOfSong, .allAlbum {
+	border: solid 1px gray;
+}
+
+span.bubble {
+	border: solid 1px silver;
+	background: ghostwhite;
+	color: cadetblue;
+	padding: 3px;
+	border-radius: 10px;
+	cursor: pointer;
+	margin: 1px;
+	display: inline-block;
+}
+
+.box {
+	border: solid 1px blue;
+	min-height: 100px;
+	margin-bottom: 14px;
+	padding: 5px;
+	border-radius: 5px;
+}
+.existingGenreList, .genreList {
+	min-height: 50px;
+}
+
+.removable:hover {
+	background: rgba(250, 15, 23, 0.57);
+	color: white;
+}
+
+.new_artist, .new_genre, .new_album {
+	border: none;
+	width: 40%;
+}
+
+.error {
+	color: red;
+	font-weight: bold;
+}
+
+.success {
+	color: green;
+	font-weight: bold;
+}
