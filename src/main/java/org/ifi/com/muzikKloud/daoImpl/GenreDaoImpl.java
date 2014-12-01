@@ -7,7 +7,6 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
 import org.ifi.com.muzikKloud.dao.GenreDao;
-import org.ifi.com.muzikKloud.entity.Artist;
 import org.ifi.com.muzikKloud.entity.Genre;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Repository;
@@ -30,7 +29,7 @@ public class GenreDaoImpl implements GenreDao {
 	@Override
 	public Genre getGenre(int id) throws DataAccessException{
 		// TODO Auto-generated method stub
-		String req = "select g from genre where g.id = ?";
+		String req = "select g from Genre g where g.id = ?";
 		Query query = this.entityManager.createQuery(req);
 		query.setParameter(1, id);
 		return (Genre) query.getSingleResult();
@@ -39,10 +38,14 @@ public class GenreDaoImpl implements GenreDao {
 	@Override
 	public Genre getGenre(String name) throws DataAccessException{
 		// TODO Auto-generated method stub
-		String req = "select g from genre where g.name = ?";
+		String req = "select g from Genre g where g.name = ?";
 		Query query = this.entityManager.createQuery(req);
 		query.setParameter(1, name);
-		return (Genre) query.getSingleResult();
+		try{
+			return (Genre) query.getSingleResult();
+		}catch(Exception e){
+			return null;
+		}
 	}
 
 	@Override

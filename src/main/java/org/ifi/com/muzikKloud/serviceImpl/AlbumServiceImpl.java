@@ -43,4 +43,17 @@ public class AlbumServiceImpl implements AlbumService {
 		// TODO Auto-generated method stub
 		return this.albumDao.getAllAlbums();
 	}
+	@Override
+	public Album getAlbum(String titre) {
+		// TODO Auto-generated method stub
+		return this.albumDao.getAlbum(titre);
+	}
+	
+	@Override
+	public boolean doesAllbumExist(Album al) {
+		// TODO Auto-generated method stub
+		return this.albumDao.getAlbum(al.getTitre()) != null;
+	}
+
+	
 }

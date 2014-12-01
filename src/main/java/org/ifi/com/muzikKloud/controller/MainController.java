@@ -18,7 +18,7 @@ public class MainController {
 	private SongService songService;
 	@Autowired
 	private ArtistService artistService;
-	private int limit = 2;
+	private int limit = 20;
 
 	/**
 	 * Display welcome page and bind the 5 last songs added

@@ -21,7 +21,7 @@
 				        <td th:text="${song.id}"></td>  
 				        <td th:text="${song.getTitre()}"></td> <!--  , getArtists()-->
 				        <td th:text="${song.getDateParution()}"></td> 
-				        <td th:text="${song.getLink()}"></td> 
+				        <td><a th:text="${song.link}" th:href="${'song?id='+song.getId()}"></a></td>
 				    </tr>  
 			    </tbody>  
 			</table>

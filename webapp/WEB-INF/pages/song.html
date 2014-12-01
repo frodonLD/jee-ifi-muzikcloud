@@ -12,7 +12,7 @@
 	        <p th:text="${song.getDateParution()}"></p> 
 	        <p th:text="${song.getLink()}"></p>
 	        <!-- Display the audio player with control buttons. -->
-		    <audio controls="" autoplay="" loop="" th:src="@{audios/baponga.mp3}">
+		    <audio controls="" autoplay="" loop="" th:src="${'audios/'+song.getLink()}">
 		  		HTML5 audio not supported
 		    </audio>
 		</div>

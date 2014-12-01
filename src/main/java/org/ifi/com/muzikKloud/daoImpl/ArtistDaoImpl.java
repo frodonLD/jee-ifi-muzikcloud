@@ -48,7 +48,11 @@ public class ArtistDaoImpl implements ArtistDao {
 		String req = "select a from artist  where a.id = ? ";
 		Query query = this.entityManager.createQuery(req);
 		query.setParameter(1, id);
-		return (Artist) query.getSingleResult();
+		try{
+			return (Artist) query.getSingleResult();
+		}catch(Exception e){
+			return null;
+		}
 	}
 	
 	

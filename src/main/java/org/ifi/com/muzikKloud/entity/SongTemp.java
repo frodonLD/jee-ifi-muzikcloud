@@ -6,8 +6,9 @@ public class SongTemp {
 	public int date;
 	public String artiste;
 	public String fichier;
-	public String genre;
-	public String album;
+	public String[] artistes;
+	public String albums;
+	public String[] genres;
 	
 	//Introducing the dummy constructor
     public SongTemp() {
@@ -19,16 +20,5 @@ public class SongTemp {
 		this.date = date;
 		this.fichier = file;
 	}
-	
-	public SongTemp(String titre, int date, String artist, String file, String genre, String album){
-		this.titre = titre;
-		this.artiste = artist;
-		this.date = date;
-		this.fichier = file;
-		this.genre = genre;
-		this.album = album;
-	}
-	
-	
 	
 }

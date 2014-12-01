@@ -34,7 +34,11 @@ public class SongDaoImpl implements SongDao {
 		String req = "select s from Song s where s.id = ?";
 		Query query = this.entityManager.createQuery(req);
 		query.setParameter(1, id);
-		return (Song) query.getSingleResult();
+		try{
+			return (Song) query.getSingleResult();
+		}catch(Exception e){
+			return null;
+		}
 	}
 
 	@Override
@@ -81,16 +85,25 @@ public class SongDaoImpl implements SongDao {
 	@Override
 	public List<Song> getLastSongsAdded(int limit) throws DataAccessException{
 		// TODO Auto-generated method stub
-		System.out.println("DAO");
 		String req = "from Song";
 		Query query = this.entityManager.createQuery(req);
-		//query.setParameter(1, limit);
-		System.out.println("QUERY CREATED");
 		if (limit >= 0)
 			query.setMaxResults(limit);
 		List<Song> temp = query.getResultList();
-		System.out.println("RESULT DAO ==> "+temp);
 		return temp;
+	}
+
+	@Override
+	public Song getSong(String titre, String link) throws DataAccessException {
+		String req = "select s from Song s where s.titre = ? and s.link = ?";
+		Query query = this.entityManager.createQuery(req);
+		query.setParameter(1, titre);
+		query.setParameter(2, link);
+		try{
+			return (Song) query.getSingleResult();
+		}catch(Exception e){
+			return null;
+		}
 	}
 
 }

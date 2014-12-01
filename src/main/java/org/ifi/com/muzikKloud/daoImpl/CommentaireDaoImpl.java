@@ -1,5 +1,7 @@
 package org.ifi.com.muzikKloud.daoImpl;
 
+import java.util.List;
+
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
@@ -30,16 +32,22 @@ public class CommentaireDaoImpl implements CommentaireDao {
 		String req = "select c from commentaire where c.id = ?";
 		Query query = this.entityManager.createQuery(req);
 		query.setParameter(1, id);
-		return (Commentaire) query.getSingleResult();
+		try{
+			return (Commentaire) query.getSingleResult();
+		}catch(Exception e){
+			return null;
+		}
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
-	public Commentaire getCommentaire(String author) throws DataAccessException{
+	public List<Commentaire> getCommentaire(String author) throws DataAccessException{
 		// TODO Auto-generated method stub
-		String req = "select c from commentaire where c.authorname = ?";
+		String req = "from Commentaire c where c.authorname = ?";
 		Query query = this.entityManager.createQuery(req);
 		query.setParameter(1, author);
-		return (Commentaire) query.getSingleResult();
+		return (List<Commentaire>) query.getSingleResult();
 	}
+	
 
 }

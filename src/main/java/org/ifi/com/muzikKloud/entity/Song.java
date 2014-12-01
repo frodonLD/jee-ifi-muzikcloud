@@ -2,7 +2,6 @@ package org.ifi.com.muzikKloud.entity;
 
 import java.io.Serializable;
 import javax.persistence.*;
-import java.util.Date;
 import java.util.List;
 
 
@@ -19,9 +18,8 @@ public class Song implements Serializable {
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	private int id;
 
-	@Temporal(TemporalType.DATE)
 	@Column(name="date_parution")
-	private Date dateParution;
+	private int dateParution;
 
 	private String link;
 
@@ -55,11 +53,11 @@ public class Song implements Serializable {
 		this.id = id;
 	}
 
-	public Date getDateParution() {
+	public int getDateParution() {
 		return this.dateParution;
 	}
 
-	public void setDateParution(Date dateParution) {
+	public void setDateParution(int dateParution) {
 		this.dateParution = dateParution;
 	}
 

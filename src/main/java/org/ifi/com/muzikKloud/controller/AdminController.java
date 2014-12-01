@@ -9,6 +9,8 @@ import java.util.Date;
 import java.util.List;
 
 import org.apache.commons.io.FilenameUtils;
+import org.apache.log4j.Logger;
+import org.ifi.com.muzikKloud.entity.Album;
 import org.ifi.com.muzikKloud.entity.Artist;
 import org.ifi.com.muzikKloud.entity.JsonResponse;
 import org.ifi.com.muzikKloud.entity.Song;
@@ -29,6 +31,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 @Controller
 public class AdminController {
+	private static final Logger logger = Logger.getLogger(AdminController.class);
+	
 	@Autowired
 	private SongService songService;
 	@Autowired
@@ -43,11 +47,6 @@ public class AdminController {
 	private ArrayList<String> listOfExtensions;
 	
 
-	/**
-	 * Display welcome page and bind the 5 last songs added
-	 * 
-	 * @return
-	 */
 	@RequestMapping("/admin")
 	public String admin() {
 		return "admin/home";
@@ -58,21 +57,14 @@ public class AdminController {
 		return "admin/addsongs";
 	}
 	
-	/*@RequestMapping(value = "/admin/addsongs", method = RequestMethod.POST, produces = "application/json", consumes = "application/json")
-	public @ResponseBody JsonResponse addSongss(@RequestBody final SongTemp song) {
-		for (int i = 0; i < 100; i++) {
-			System.err.println("YEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEESSSSSSSSSSSSSSSSSSS");
-		}
-		return new JsonResponse("OK", "");
-	}*/
 	
 	@RequestMapping(value = "/admin/addsongs", method = RequestMethod.POST, consumes = "application/json", produces = "application/json")
 	public @ResponseBody JsonResponse addSongsss(@RequestBody SongTemp s) {
-		for (int i = 0; i < 10; i++) {
-			System.err.println("YEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEESSSSSSSSSSSSSSSSSSS");
-		}
-		System.err.println(s.artiste);
-		return new JsonResponse("KO", "GROSSE ERREUR");
+		boolean status = songService.addSong(s.titre, s.date, s.fichier, s.artistes, s.albums, s.genres);
+		if(!status)
+			return new JsonResponse("KO", "Erreur lors de l'ajout du son "+s.titre+" lié au fichier "+s.fichier+" : Ce son existe déjà!");
+		else 
+			return new JsonResponse("OK", "");
 	}
 	
 	@RequestMapping("/admin/uploadsongs")
@@ -96,11 +88,18 @@ public class AdminController {
 			msg = "Fail lors de l'upload des fichiers";
 			error = true;
 		}
+		ArrayList<Album> allAlbums = (ArrayList<Album>) albumService.getAllAlbums();
+		ArrayList<Album> cloneAllAlbums = (ArrayList<Album>) allAlbums.clone();
+		for (Album album : allAlbums) {
+			if(album.getTitre().trim().isEmpty())
+				cloneAllAlbums.remove(album);
+		}
+		System.err.println(cloneAllAlbums);
 		model.addAttribute("songTmp", songTmp);
 		model.addAttribute("error", error);
 		model.addAttribute("allArtists", artistService.getAllArtists());
 		model.addAttribute("allGenres", genreService.getAllGenres());
-		model.addAttribute("allAlbums", albumService.getAllAlbums());
+		model.addAttribute("allAlbums", cloneAllAlbums);
 		model.addAttribute("msg", msg);
 		return "admin/addsongs";
 	}
@@ -122,20 +121,25 @@ public class AdminController {
 							buffStream.close();
 							SongTemp s = new SongTemp(fileName, 2014, fileName, fileName);
 							result.add(s);
+							if(logger.isDebugEnabled()){
+								logger.debug("Fichier ajouté "+tempPath);
+							}
 						} else {
-							System.out.println("EXTENSION NON VALIDE");
+							if(logger.isDebugEnabled()){
+								logger.debug("Extension non valide pour le fichier "+fileName);
+							}
 						}
-					} else {
-						System.out.println("FICHIER VIDE!!!!!");
 					}
 					
 				} catch (Exception e) {
 					System.out.println(e);
+					logger.error("Erreur lors de la copie d'un ou plusieurs fichiers ==>"+e.getMessage(), e);
 				}
 			}
 		} else {
-			
-			System.out.println("PAS DE FICHIERS DU TOUUUT!!!!!!");
+			if(logger.isDebugEnabled()){
+				logger.debug("Aucun fichier détecté lors de l'upload");
+			}
 		}
 		return result;
 	}
@@ -144,25 +148,5 @@ public class AdminController {
 		String ext = FilenameUtils.getExtension(filename);
 		return listOfExtensions.contains(ext);
 	}
-	
-	/*
-	public SongTemp getSongTemp(String filepath, String filename) throws SAXException, TikaException {
-		try {
-			File file = new File(filepath);
-			InputStream input = new FileInputStream(file);
-			Metadata metadata = new Metadata();
-			BodyContentHandler handler = new BodyContentHandler(10 * 1024 * 1024);
-			AutoDetectParser parser = new AutoDetectParser();
-			parser.parse(input, handler, metadata);
-			String[] metadataNames = metadata.names();
-            for(String name : metadataNames){
-                System.err.println(name + "==>> " + metadata.get(name));
-            }
-		} catch (IOException e) {
-			System.err.println(e.getMessage());
-		}
-		return null;
-	}
-	*/
 	
 }

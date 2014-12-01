@@ -20,6 +20,58 @@
 
 .content-to-add {
 	border: solid 1px black;
+	margin-bottom: 10px;
+	padding-top: 5px;
+	padding-bottom: 5px;
+}
+
+.logoSong{
+	border: solid 1px;
+	background: silver;
+	min-height: 77px;
+	float: right;
+	margin-top: 10.7%;
+	width: 14%;
+	color: black;
+	font-size: 1.7em;
+	padding: 2px;
+	text-align: center;
+	background-image:url('../images/logoSong.png');
+	background-size: contain;
+	background-repeat:no-repeat;
+	background-position:center center;
+}
+
+.songAttribute{
+	display: inline-block;
+	width: 12%;
+	border-bottom: solid 1px;
+	border-right: dashed 1px;
+	margin-right: 5px;
+	padding-bottom: 2px;
+}
+
+.line.dropable .songAttribute{
+	border-right: none;	
+	border-bottom: none;
+}
+
+.line.dropable{
+	border: solid 1px gray;
+	cursor: pointer;	
+}
+
+.line{
+	margin-left: 15px;
+	margin-top: 1%;
+}
+
+.line:hover{
+}
+
+.line.showable{
+	display:none;
+	visibility:hidden;
 }
 
 .artistOfSong, .allArtist,
@@ -55,14 +107,18 @@ span.bubble {
 	color: white;
 }
 
-.new_artist, .new_genre, .new_album {
-	border: none;
+.new_artist, .new_genre, .new_album, .title {
 	width: 40%;
 }
+
 
 .error {
 	color: red;
 	font-weight: bold;
+}
+
+.errorBox{
+	border: solid 1px red;
 }
 
 .success {

@@ -1,16 +1,17 @@
-$(document).ready(function(){
+$(document).ready(function() {
 	var artistRemoveAsked = false;
 	var genreRemoveAsked = false;
 	var albumRemoveAsked = false;
 	
+	$('[data-toggle="tooltip"]').tooltip();
 	// ARTISTS ---
-	$('.existingArtistList .addable').click(function(){
+	$('.existingArtistList .addable').click(function() {
 		e = $(this);
 		artistToAdd = $(e).html();
 		artistBox = e.closest(".artists").prev().children(".box");
 		artistBoxHtml = artistBox.html();
-		if (isYetMentionned(artistBox, artistToAdd)){
-			artistToAdd = '<span class="bubble removable">'+artistToAdd+'</span>';
+		if (isNotYetMentionned(artistBox, artistToAdd) && artistToAdd != '') {
+			artistToAdd = '<span title="Supprimer" class="bubble removable">'+artistToAdd+'</span>';
 			artistBox.html(artistBoxHtml+artistToAdd);
 		}
 	});
@@ -24,9 +25,9 @@ $(document).ready(function(){
 		e = $(this);
 		artistBox = $(this);
 		artistBoxHtml = artistBox.html();
-		if(!artistRemoveAsked){
+		if(!artistRemoveAsked) {
 			previousToAppend = $(".box.artistList .new_artist");
-			if(!previousToAppend.length){
+			if(!previousToAppend.length) {
 				toAppend = '<input type="text" class="new_artist"/>';
 				artistBox.html(artistBoxHtml+toAppend);
 				child = artistBox.children('.new_artist');
@@ -43,25 +44,31 @@ $(document).ready(function(){
 			artistToAdd = e.val();
 			artistBox = e.closest(".box");
 			artistBoxHtml = artistBox.html();
-			if (isYetMentionned(artistBox, artistToAdd)){
+			if (isNotYetMentionned(artistBox, artistToAdd) && artistToAdd != '') {
+//				alert("Ok!! Should add normally!");
 				e.remove();
 				artistBoxHtml = artistBox.html();
-				artistToAdd = '<span class="bubble removable">'+artistToAdd+'</span>';
+				artistToAdd = '<span title="Supprimer" class="bubble removable">'+artistToAdd+'</span>';
 				artistBox.html(artistBoxHtml+artistToAdd);
+//				alert("Result should be ==> "+artistBox.html());
 			}
 			e.remove();
 		}
 	});
 	
+	$('.box').on('blur', '.new_artist, .new_genre, .new_album', function() {
+		//$(this).remove();
+	});
+	
 	// GENRES ---
-	$('.existingGenreList .addable').click(function(){
+	$('.existingGenreList .addable').click(function() {
 		e = $(this);
 		genreToAdd = $(e).html();
 		genreBox = e.closest(".genres").prev().children(".box");
 		genreBoxHtml = genreBox.html();
-		if (isYetMentionned(genreBox, genreToAdd)){
-			genreToAdd = '<span class="bubble removable">'+genreToAdd+'</span>';
-			genreBox.html(artistBoxHtml+genreToAdd);
+		if (isNotYetMentionned(genreBox, genreToAdd)) {
+			genreToAdd = '<span title="Supprimer" class="bubble removable">'+genreToAdd+'</span>';
+			genreBox.html(genreBoxHtml+genreToAdd);
 		}
 	});
 	
@@ -74,10 +81,10 @@ $(document).ready(function(){
 		e = $(this);
 		genreBox = $(this);
 		genreBoxHtml = genreBox.html();
-		if(!genreRemoveAsked){
+		if(!genreRemoveAsked) {
 			previousToAppend = $(".box.genreList .new_genre");
-			if(!previousToAppend.length){
-				toAppend = '<input type="text" class="new_genre"/>';
+			if(!previousToAppend.length) {
+				toAppend = '<input title="Supprimer" type="text" class="new_genre"/>';
 				genreBox.html(genreBoxHtml+toAppend);
 				child = genreBox.children('.new_genre');
 				child.focus();
@@ -87,13 +94,13 @@ $(document).ready(function(){
 	});
 	
 	// ALBUMS ---
-	$('.existingAlbumList .addable').click(function(){
+	$('.existingAlbumList .addable').click(function() {
 		e = $(this);
 		albumToAdd = $(e).html();
 		albumBox = e.closest(".albums").prev().children(".box");
 		albumBoxHtml = albumBox.html();
-		if (isYetMentionned(albumBox, albumToAdd)){
-			albumToAdd = '<span class="bubble removable">'+albumToAdd+'</span>';
+		if (isNotYetMentionned(albumBox, albumToAdd) && albumToAdd != '' && albumBoxHtml <= 0) {
+			albumToAdd = '<span title="Supprimer" class="bubble removable">'+albumToAdd+'</span>';
 			albumBox.html(albumBoxHtml+albumToAdd);
 		}
 	});
@@ -107,92 +114,108 @@ $(document).ready(function(){
 		e = $(this);
 		albumBox = $(this);
 		albumBoxHtml = albumBox.html();
-		if(!albumRemoveAsked){
+		if(!albumRemoveAsked) {
 			previousToAppend = $(".box.albumList .new_album");
-			if(!previousToAppend.length){
+			if(!previousToAppend.length && albumBoxHtml <= 0) {
 				toAppend = '<input type="text" class="new_album"/>';
 				albumBox.html(albumBoxHtml+toAppend);
-				child = albumBox.children('.new_abum');
+				child = albumBox.children('.new_album');
 				child.focus();
 			}
 		}
 		albumRemoveAsked = false;
 	});
 	
+	// ALL THE DROPABLES
+	$('.line.dropable').click(function() {
+		e = $(this); infosBox = e.nextAll('.line.infos').first();
+		infosBox.slideToggle( "slow" );
+		if (infosBox.hasClass('showable')) {
+			infosBox.addClass('hiddable');
+			infosBox.removeClass('showable');
+		} else if (infosBox.hasClass('hiddable')) {
+			infosBox.addClass('showable');
+			infosBox.removeClass('hiddable');
+		}
+	});
 	
 	//SUBMIT ---
 	$('#uploadForm').submit(function() {
-		
-		$('.content-to-add').each(function(){
-			
-			e = $(this); listArtist = listGenre = listAlbum = '';
+		$('.notifications').html('');
+		$('.content-to-add').each(function() {
+			e = $(this); var listArtist = [], listGenre = [];
 			title = e.find('.title');
 			year = e.find('.year');
 			file = e.find('.file');
 			listOfArtist = e.find('.box.artistList');
-			listOfGenre = e.find('.box.genretList');
+			listOfGenre = e.find('.box.genreList');
 			listOfAlbum = e.find('.box.albumList');
 			
 			child = listOfArtist.children('.bubble');
-			child.each(function(){
-				listArtist += $(this).text()+'####';
+			child.each(function() {
+				listArtist.push($(this).text());
 			});
-			
-			
 			child = listOfGenre.children('.bubble');
-			child.each(function(){
-				listGenre += $(this).text()+'####';
+			child.each(function() {
+				listGenre.push($(this).text());
 			});
-			
-			child = listOfAlbum.children('.bubble');
-			child.each(function(){
-				listAlbum += $(this).text()+'####';
-			});
-			
-			recap = "Titre ==> "+title.val()+" <br/>Year ==> "+year.val()+" <br/>ListArtist = "+listArtist+"<br/>ListAlbum= "+listAlbum+" <br/>File ==> "+file.val();
-			
-			$('.hearder').html(recap);
-			
-			if(title.val() != '' && year.val() != '' && listArtist != '' && file != ''){
-				/* 
-				var request = $.ajax({
-					  url: "/admin/addsongs",
-					  type: "POST",
-					  data: { "nom" : "Frodon" },
-					});
-				 */
-					$.ajax({
-					  type: "POST",
-					  url: "/MuzikKloud/admin/addsongs",
-					  dataType: 'json',
-//					  data: { "nom" : "Frodon" },
-//					  data: JSON.stringify({ titre: title.val(), date: parseInt(year.val()), artiste: listArtist, fichier: file, genre: listGenre, album: listAlbum }),
-					  data: '{"titre": "un", "date":'+2014+', "artiste": "Artists", "fichier": "fichier", "genre": "Genres", "album": "Albums" }',
-					  contentType: 'application/json',
-					  mimeType: 'application/json',
-					  success: function(data) {
-					    if(data.status == 'OK') alert('Song has been added');
-					    else alert('Failed adding song' + data.status + ', ' + data.errorMessage);
-					  },
-					  error:function(data, status, er) { 
-					        alert("error: "+data+" status: "+status+" er:"+er);
-					   }
-					});
+			album = listOfAlbum.text();
+			if(title.val() != '' && year.val() != '' && listArtist.length >0 && file.val() != '') {
+				$.ajax({
+					type: "POST",
+					url: "/MuzikKloud/admin/addsongs",
+					dataType: 'json',
+					data: JSON.stringify({ 'titre': title.val(), 'date': parseInt(year.val()), 'artiste': "", 'fichier': file.val(), 'genres': listGenre, 'albums': album, 'artistes':listArtist }),
+					contentType: 'application/json',
+					mimeType: 'application/json',
+					success: function(data) {
+						if(data.status == 'OK') {
+							e.remove();
+							msg = 'Ajout de '+title.val()+' effectue avec succes!';
+							toAdd = '<span class="success">'+msg+'</span>';
+							$('.notifications').html($('.notifications').html() + toAdd);
+							if($('.content-to-add').length <= 0){
+								window.location.href = "/MuzikKloud/admin/songs";
+							}
+						}
+						else {
+							msg = 'Ajout de '+title.val()+' echoue. <b>'+data.errorMessage+'</b>';
+							toAdd = '<span class="error">'+msg+'</span>';
+							e.addClass('errorBox');
+							$('.notifications').html($('.notifications').html() + toAdd);
+						}
+					},
+					error:function(data, status, er) { 
+						alert("error: "+data+" status: "+status+" er:"+er);
+					}
+				});
 			} else{
-				msg = "Erreur lors de l'enrégistrement, vérifiez les infos du fichier";
+				msg = "Erreur lors de l'enregistrement, verifiez les infos du fichier";
+				toAdd = '<span class="error">'+msg+'</span>';
+				e.addClass('errorBox');
+				$('.notifications').html($('.notifications').html() + toAdd);
+				e.addClass('errorBox');
+				if(title.val() == '') {
+					title.addClass('errorBox');
+				}
+				if(listArtist.length <= 0) {
+					listOfArtist.closest('.line').prev('.dropable').find('.songAttribute').addClass('error');
+				}
 			}
 		});
+		
 		return false;
 	});
+	
 	
 });
 
 
 
-function isYetMentionned(box, toAdd){
+function isNotYetMentionned(box, toAdd) {
 	a = true; child = box.children('.bubble');
-	child.each(function(){
-		if($(this).text().trim() == toAdd.trim()){
+	child.each(function() {
+		if($(this).text().trim() == toAdd.trim()) {
 			a = false;
 		}
 	});
