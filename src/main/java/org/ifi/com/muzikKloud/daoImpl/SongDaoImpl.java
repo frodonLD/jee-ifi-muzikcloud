@@ -9,6 +9,7 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
 import org.ifi.com.muzikKloud.dao.SongDao;
+import org.ifi.com.muzikKloud.entity.Artist;
 import org.ifi.com.muzikKloud.entity.Song;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Repository;
@@ -25,8 +26,8 @@ public class SongDaoImpl implements SongDao {
 	@Transactional(propagation = Propagation.REQUIRED) 
 	public void addSong(Song s) throws DataAccessException{
 		// TODO Auto-generated method stub
-		this.entityManager.persist(s);
-
+		if(!this.doesSongExist(s))
+			this.entityManager.persist(s);
 	}
 
 	@Override
@@ -71,7 +72,7 @@ public class SongDaoImpl implements SongDao {
 		this.updateSong(id, titre);
 	}
 
-	@Override
+	/*@Override
 	@Transactional(propagation = Propagation.REQUIRED) 
 	public void deleteSong(int id) throws DataAccessException{
 		// TODO Auto-generated method stub
@@ -79,6 +80,13 @@ public class SongDaoImpl implements SongDao {
 		Query query = this.entityManager.createQuery(req);
 		query.setParameter(1, id);
 		query.executeUpdate();
+	}
+	*/
+	@Override
+	@Transactional(propagation = Propagation.REQUIRED) 
+	public void deleteSong(int id) throws DataAccessException{
+		Song temp = this.getSong(id);
+		this.entityManager.remove(temp);
 	}
 
 	@SuppressWarnings("unchecked")
@@ -104,6 +112,11 @@ public class SongDaoImpl implements SongDao {
 		}catch(Exception e){
 			return null;
 		}
+	}
+	
+	public boolean doesSongExist(Song s) {
+		// TODO Auto-generated method stub
+		return this.getSong(s.getTitre(), s.getLink()) != null;
 	}
 
 }

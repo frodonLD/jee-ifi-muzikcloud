@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head th:include="/common/layoutAdmin::head">
+<head th:with="title='Admin - Tableau de bord'" th:include="/common/layoutAdmin::head">
 </head>
 <body>
 	<div class="container" sec:authorize="hasRole('ROLE_ADMIN')">

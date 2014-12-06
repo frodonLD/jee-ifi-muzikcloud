@@ -1,4 +1,6 @@
 $(document).ready(function() {
+	
+	// UPLOADSONGS -------------------------------------------------------------------------------
 	var artistRemoveAsked = false;
 	var genreRemoveAsked = false;
 	var albumRemoveAsked = false;
@@ -61,37 +63,37 @@ $(document).ready(function() {
 	});
 	
 	// GENRES ---
-	$('.existingGenreList .addable').click(function() {
-		e = $(this);
-		genreToAdd = $(e).html();
-		genreBox = e.closest(".genres").prev().children(".box");
-		genreBoxHtml = genreBox.html();
-		if (isNotYetMentionned(genreBox, genreToAdd)) {
-			genreToAdd = '<span title="Supprimer" class="bubble removable">'+genreToAdd+'</span>';
-			genreBox.html(genreBoxHtml+genreToAdd);
-		}
-	});
-	
-	$('.genreList').on('click', '.removable', function() {
-		genreRemoveAsked = true;
-		e = $(this);e.remove();
-	});
-	
-	$('.box.genreList:not(".box.genreList.bubble")').click(function() {
-		e = $(this);
-		genreBox = $(this);
-		genreBoxHtml = genreBox.html();
-		if(!genreRemoveAsked) {
-			previousToAppend = $(".box.genreList .new_genre");
-			if(!previousToAppend.length) {
-				toAppend = '<input title="Supprimer" type="text" class="new_genre"/>';
-				genreBox.html(genreBoxHtml+toAppend);
-				child = genreBox.children('.new_genre');
-				child.focus();
-			}
-		}
-		genreRemoveAsked = false;
-	});
+//	$('.existingGenreList .addable').click(function() {
+//		e = $(this);
+//		genreToAdd = $(e).html();
+//		genreBox = e.closest(".genres").prev().children(".box");
+//		genreBoxHtml = genreBox.html();
+//		if (isNotYetMentionned(genreBox, genreToAdd)) {
+//			genreToAdd = '<span title="Supprimer" class="bubble removable">'+genreToAdd+'</span>';
+//			genreBox.html(genreBoxHtml+genreToAdd);
+//		}
+//	});
+//	
+//	$('.genreList').on('click', '.removable', function() {
+//		genreRemoveAsked = true;
+//		e = $(this);e.remove();
+//	});
+//	
+//	$('.box.genreList:not(".box.genreList.bubble")').click(function() {
+//		e = $(this);
+//		genreBox = $(this);
+//		genreBoxHtml = genreBox.html();
+//		if(!genreRemoveAsked) {
+//			previousToAppend = $(".box.genreList .new_genre");
+//			if(!previousToAppend.length) {
+//				toAppend = '<input title="Supprimer" type="text" class="new_genre"/>';
+//				genreBox.html(genreBoxHtml+toAppend);
+//				child = genreBox.children('.new_genre');
+//				child.focus();
+//			}
+//		}
+//		genreRemoveAsked = false;
+//	});
 	
 	// ALBUMS ---
 	$('.existingAlbumList .addable').click(function() {
@@ -175,7 +177,94 @@ $(document).ready(function() {
 							toAdd = '<span class="success">'+msg+'</span>';
 							$('.notifications').html($('.notifications').html() + toAdd);
 							if($('.content-to-add').length <= 0){
-								window.location.href = "/MuzikKloud/admin/songs";
+								$('.buttons').remove();
+								setTimeout(function(){window.location.href = "/MuzikKloud/admin/songs";}, 2000);
+							}
+						}
+						else {
+							msg = 'Ajout de '+title.val()+' echoue. <b>'+data.errorMessage+'</b>';
+							toAdd = '<span class="error">'+msg+'</span>';
+							e.addClass('errorBox');
+							$('.notifications').html($('.notifications').html() + toAdd);
+						}
+					},
+					error:function(data, status, er) { 
+						alert("error: "+data+" status: "+status+" er:"+er);
+					}
+				});
+			} else{
+				msg = "Erreur lors de l'enregistrement, verifiez les infos du fichier";
+				toAdd = '<span class="error">'+msg+'</span>';
+				e.addClass('errorBox');
+				$('.notifications').html($('.notifications').html() + toAdd);
+				e.addClass('errorBox');
+				if(title.val() == '') {
+					title.addClass('errorBox');
+				}
+				if(listArtist.length <= 0) {
+					listOfArtist.closest('.line').prev('.dropable').find('.songAttribute').addClass('error');
+				}
+			}
+		});
+		
+		return false;
+	});
+	
+	
+	// REMOVE SONG -------------------------------------------------------------------------------
+    $("a.removeSong").click(function(e) {
+        e = $(this);
+		id = e.closest('.song').find('.idSong');
+		$("#SongToRemove").val(id.val());
+    });
+    
+    $("#delete").click(function(e) {
+    	url = "/MuzikKloud/admin/removesong?id="+parseInt($("#SongToRemove").val());
+        e = $(this);
+		window.location = url;
+    });
+
+	
+	
+	//UPDATE ---
+	$('#updateForm').submit(function() {
+		$('.notifications').html('');
+		$('.content-to-add').each(function() {
+			e = $(this); var listArtist = [], listGenre = [];
+			ex_title = e.find('.ex_titre');
+			title = e.find('.title');
+			year = e.find('.year');
+			file = e.find('.file');
+			listOfArtist = e.find('.box.artistList');
+			listOfAlbum = e.find('.box.albumList');
+			
+			child = listOfArtist.children('.bubble');
+			child.each(function() {
+				listArtist.push($(this).text());
+			});
+			album = listOfAlbum.text().trim();
+			if(ex_title.val() != '' && title.val() != '' && year.val() != '' && listArtist.length >0 && file.val() != '') {
+				/*alert("Ex_title ==> "+ex_title.val());
+				alert("New_Title ==> "+title.val());
+				alert("Year ==> "+year.val());
+				alert("Artistes ==> "+listArtist);
+				alert("Album ==> "+album);*/
+				$.ajax({
+					type: "POST",
+					url: "/MuzikKloud/admin/applyupdate",
+					dataType: 'json',
+					data: JSON.stringify({ 'titre': title.val(), 'date': parseInt(year.val()), 'artiste': "", 'ex_titre': ex_title.val(), 'fichier': file.val(), 'genres': listGenre, 'albums': album, 'artistes':listArtist }),
+					contentType: 'application/json',
+					mimeType: 'application/json',
+					success: function(data) {
+						if(data.status == 'OK') {
+							e.remove();
+							msg = 'Modification de '+title.val()+' effectue avec succes!';
+							toAdd = '<span class="success">'+msg+'</span>';
+							$('.notifications').html($('.notifications').html() + toAdd);
+							if($('.content-to-add').length <= 0){
+								$('.buttons').remove();
+								setTimeout(function(){window.location.href = "/MuzikKloud/admin/songs";}, 2000);
 							}
 						}
 						else {

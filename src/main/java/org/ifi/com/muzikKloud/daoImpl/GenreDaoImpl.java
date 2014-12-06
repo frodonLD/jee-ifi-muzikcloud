@@ -7,7 +7,9 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
 import org.ifi.com.muzikKloud.dao.GenreDao;
+import org.ifi.com.muzikKloud.entity.Artist;
 import org.ifi.com.muzikKloud.entity.Genre;
+import org.ifi.com.muzikKloud.entity.Song;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Propagation;
@@ -77,6 +79,16 @@ public class GenreDaoImpl implements GenreDao {
 		List<Genre> result = (List<Genre>) query.getResultList();
 		System.out.println(result);
 		return result;
+	}
+
+	@Override
+	@Transactional(propagation = Propagation.REQUIRED)
+	public void updateGenreSongs(Genre g, Song s) {
+		// TODO Auto-generated method stub
+		Genre temp = this.entityManager.find(Genre.class, g.getId());
+		temp.addSong(s);
+		this.entityManager.merge(temp);
+		
 	}
 
 	

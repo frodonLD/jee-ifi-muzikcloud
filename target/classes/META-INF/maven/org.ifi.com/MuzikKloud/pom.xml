@@ -167,6 +167,13 @@
 			<version>2.1</version>
 		</dependency>
 
+		<!-- Message source -->
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-context</artifactId>
+		</dependency>
+
+
 
 
 

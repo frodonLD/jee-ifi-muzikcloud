@@ -3,6 +3,7 @@ package org.ifi.com.muzikKloud.service;
 import java.util.List;
 
 import org.ifi.com.muzikKloud.entity.Genre;
+import org.ifi.com.muzikKloud.entity.Song;
 
 public interface GenreService {
 	public void addGenre(Genre g);
@@ -12,4 +13,5 @@ public interface GenreService {
 	public void deleteGenre(int id);
 	public boolean doesGenreExists(Genre g);
 	public List<Genre> getAllGenres();
+	void updateGenreSongs(Genre g, Song s);
 }

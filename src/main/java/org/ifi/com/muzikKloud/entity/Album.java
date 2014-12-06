@@ -10,27 +10,21 @@ import java.util.List;
  * 
  */
 @Entity
+@Table(name="album")
 @NamedQuery(name="Album.findAll", query="SELECT a FROM Album a")
 public class Album implements Serializable {
 	private static final long serialVersionUID = 1L;
-
-	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
 	private int id;
-
 	private String titre;
-
-	//bi-directional many-to-many association to Artist
-	@ManyToMany(mappedBy="albums")
-	private List<Artist> artists;
-
-	//bi-directional many-to-one association to Song
-	@OneToMany(mappedBy="album")
 	private List<Song> songs;
 
 	public Album() {
 	}
 
+
+	@Id
+	@GeneratedValue(strategy=GenerationType.AUTO)
+	@Column(unique=true, nullable=false)
 	public int getId() {
 		return this.id;
 	}
@@ -39,6 +33,8 @@ public class Album implements Serializable {
 		this.id = id;
 	}
 
+
+	@Column(nullable=false, length=200)
 	public String getTitre() {
 		return this.titre;
 	}
@@ -47,14 +43,9 @@ public class Album implements Serializable {
 		this.titre = titre;
 	}
 
-	public List<Artist> getArtists() {
-		return this.artists;
-	}
 
-	public void setArtists(List<Artist> artists) {
-		this.artists = artists;
-	}
-
+	//bi-directional many-to-one association to Song
+	@OneToMany(mappedBy="album", fetch=FetchType.EAGER)
 	public List<Song> getSongs() {
 		return this.songs;
 	}

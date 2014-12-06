@@ -14,7 +14,8 @@ import org.ifi.com.muzikKloud.entity.Album;
 import org.ifi.com.muzikKloud.entity.Artist;
 import org.ifi.com.muzikKloud.entity.JsonResponse;
 import org.ifi.com.muzikKloud.entity.Song;
-import org.ifi.com.muzikKloud.entity.SongTemp;
+import org.ifi.com.muzikKloud.entity.SongTempInsert;
+import org.ifi.com.muzikKloud.entity.SongTempUpdate;
 import org.ifi.com.muzikKloud.service.AlbumService;
 import org.ifi.com.muzikKloud.service.ArtistService;
 import org.ifi.com.muzikKloud.service.GenreService;
@@ -51,18 +52,28 @@ public class AdminController {
 	public String admin() {
 		return "admin/home";
 	}
-
-	@RequestMapping("/admin/addsongs")
-	public String addSongs() {
-		return "admin/addsongs";
+	
+	@RequestMapping("/admin/home")
+	public String adminBis() {
+		return "admin/home";
 	}
 	
+
 	
 	@RequestMapping(value = "/admin/addsongs", method = RequestMethod.POST, consumes = "application/json", produces = "application/json")
-	public @ResponseBody JsonResponse addSongsss(@RequestBody SongTemp s) {
+	public @ResponseBody JsonResponse saveSongs(@RequestBody SongTempInsert s) {
 		boolean status = songService.addSong(s.titre, s.date, s.fichier, s.artistes, s.albums, s.genres);
 		if(!status)
 			return new JsonResponse("KO", "Erreur lors de l'ajout du son "+s.titre+" lié au fichier "+s.fichier+" : Ce son existe déjà!");
+		else 
+			return new JsonResponse("OK", "");
+	}
+	
+	@RequestMapping(value = "/admin/applyupdate", method = RequestMethod.POST, consumes = "application/json", produces = "application/json")
+	public @ResponseBody JsonResponse applyUpdate(@RequestBody SongTempUpdate s) {
+		boolean status = songService.updateSong(s.titre, s.ex_titre, s.date, s.fichier, s.artistes, s.albums, s.genres);
+		if(!status)
+			return new JsonResponse("KO", "Erreur lors de la modification du son "+s.titre+" : Ce son existe déjà!");
 		else 
 			return new JsonResponse("OK", "");
 	}
@@ -81,7 +92,7 @@ public class AdminController {
 		listOfExtensions.add("m4a");
 		String msg = "";
 		boolean error = false;
-		ArrayList<SongTemp> songTmp = multipleSave(files);
+		ArrayList<SongTempInsert> songTmp = multipleSave(files);
 		if(!songTmp.isEmpty()){
 			msg = "Upload effectué avec succès";
 		} else {
@@ -94,7 +105,6 @@ public class AdminController {
 			if(album.getTitre().trim().isEmpty())
 				cloneAllAlbums.remove(album);
 		}
-		System.err.println(cloneAllAlbums);
 		model.addAttribute("songTmp", songTmp);
 		model.addAttribute("error", error);
 		model.addAttribute("allArtists", artistService.getAllArtists());
@@ -105,8 +115,8 @@ public class AdminController {
 	}
 
 	
-	public ArrayList<SongTemp> multipleSave(MultipartFile[] files) {
-		ArrayList<SongTemp> result = new ArrayList<SongTemp>();
+	public ArrayList<SongTempInsert> multipleSave(MultipartFile[] files) {
+		ArrayList<SongTempInsert> result = new ArrayList<SongTempInsert>();
 		String fileName = null;
 		if (files != null && files.length > 0) {
 			for (int i = 0; i < files.length; i++) {
@@ -119,7 +129,7 @@ public class AdminController {
 							BufferedOutputStream buffStream = new BufferedOutputStream(new FileOutputStream(new File(tempPath)));
 							buffStream.write(bytes);
 							buffStream.close();
-							SongTemp s = new SongTemp(fileName, 2014, fileName, fileName);
+							SongTempInsert s = new SongTempInsert(fileName, 2014, fileName, fileName);
 							result.add(s);
 							if(logger.isDebugEnabled()){
 								logger.debug("Fichier ajouté "+tempPath);

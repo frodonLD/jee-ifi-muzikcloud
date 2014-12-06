@@ -1,0 +1,62 @@
+<!DOCTYPE html>  
+<html xmlns:th="http://www.thymeleaf.org"> 
+	<head th:with="title='Admin - Toute la musique'" th:include="common/layoutAdmin::head">
+	</head>
+	<body>
+		<!-- Modal -->
+		<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+		  <div class="modal-dialog">
+		    <div class="modal-content">
+		      <div class="modal-header">
+		        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+		        <h4 class="modal-title" id="myModalLabel">Confirmation...</h4>
+		      </div>
+		      <div class="modal-body">
+		        Voulez-vous vraiment supprimer ce son? (Cette oépartion est <b>irréversible</b>)
+		      </div>
+		      <div class="modal-footer">
+		        <button type="button" class="btn btn-default" data-dismiss="modal">Annuler</button>
+		        <button type="button" id="delete" class="btn btn-primary">Oui</button>
+		        <input type="hidden" id="SongToRemove" value="NULL"></input>
+		      </div>
+		    </div>
+		  </div>
+		</div>
+	
+		<div class="container">
+			<nav th:include="common/layoutAdmin::nav">
+			</nav>
+			<table class="table table-condensed">  
+	    		<thead>  
+				    <tr>  
+				        <th>Titre</th> 
+				        <th>Date</th>  
+				        <th>Artiste(s)</th>    
+				        <th>Album</th>
+				        <th>Actions</th>
+				    </tr>  
+			    </thead>  
+			    <tbody>  
+				    <tr class="song" th:each="song : ${songs}">  
+				        <td>
+				        	<a th:text="${song.titre}" th:href="${'updatesong?id='+song.getId()}"></a>
+				        	<input type="hidden" class="idSong" th:value="${song.getId()}"></input>
+				        </td>  
+				        <td th:text="${song.dateParution}"></td> 
+				        <td>
+				        	<ul th:each="artist : ${song.artists}">
+				        		<li th:text="${artist.name}"></li> 
+				        	</ul>
+				        </td>
+				        <td><a th:if="${song.album} != null" th:text="${song.album.titre}" th:href="${'album?id='+song.album.getId()}"></a></td>
+				        <td>
+				        	<a th:href="${'updatesong?id='+song.getId()}">Mofifier</a> | 
+				        	<a class="removeSong" data-toggle="modal" data-target="#myModal">Supprimer</a>
+				        </td>
+				    </tr>  
+			    </tbody>  
+			</table>
+		</div>
+	
+	</body>
+</html>

@@ -10,31 +10,23 @@ import java.util.Date;
  * 
  */
 @Entity
+@Table(name="commentaire")
 @NamedQuery(name="Commentaire.findAll", query="SELECT c FROM Commentaire c")
 public class Commentaire implements Serializable {
 	private static final long serialVersionUID = 1L;
-
-	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
 	private int id;
-
 	private String author;
-
-	@Lob
 	private String content;
-
-	@Temporal(TemporalType.DATE)
-	@Column(name="date_commentaire")
 	private Date dateCommentaire;
-
-	//bi-directional many-to-one association to Song
-	@ManyToOne
-	@JoinColumn(name="id_song")
 	private Song song;
 
 	public Commentaire() {
 	}
 
+
+	@Id
+	@GeneratedValue(strategy=GenerationType.AUTO)
+	@Column(unique=true, nullable=false)
 	public int getId() {
 		return this.id;
 	}
@@ -43,6 +35,8 @@ public class Commentaire implements Serializable {
 		this.id = id;
 	}
 
+
+	@Column(nullable=false, length=30)
 	public String getAuthor() {
 		return this.author;
 	}
@@ -51,6 +45,8 @@ public class Commentaire implements Serializable {
 		this.author = author;
 	}
 
+
+	@Lob
 	public String getContent() {
 		return this.content;
 	}
@@ -59,6 +55,9 @@ public class Commentaire implements Serializable {
 		this.content = content;
 	}
 
+
+	@Temporal(TemporalType.DATE)
+	@Column(name="date_commentaire", nullable=false)
 	public Date getDateCommentaire() {
 		return this.dateCommentaire;
 	}
@@ -67,6 +66,10 @@ public class Commentaire implements Serializable {
 		this.dateCommentaire = dateCommentaire;
 	}
 
+
+	//bi-directional many-to-one association to Song
+	@ManyToOne
+	@JoinColumn(name="id_song", nullable=false)
 	public Song getSong() {
 		return this.song;
 	}

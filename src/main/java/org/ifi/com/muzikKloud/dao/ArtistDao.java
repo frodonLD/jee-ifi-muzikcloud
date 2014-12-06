@@ -3,6 +3,7 @@ package org.ifi.com.muzikKloud.dao;
 import java.util.List;
 
 import org.ifi.com.muzikKloud.entity.Artist;
+import org.ifi.com.muzikKloud.entity.Song;
 import org.springframework.dao.DataAccessException;
 
 public interface ArtistDao {
@@ -11,5 +12,7 @@ public interface ArtistDao {
 	public Artist getArtist(String name) throws DataAccessException;
 	public List<Artist> getAllArtist() throws DataAccessException;
 	public void updateArtist(int id, String name) throws DataAccessException;
+	public void updateArtistSongs(Artist a, Song s) throws DataAccessException;
 	public void deleteArtist(int id) throws DataAccessException;
+	public void removeArtistSongs(Artist a, Song s);
 }

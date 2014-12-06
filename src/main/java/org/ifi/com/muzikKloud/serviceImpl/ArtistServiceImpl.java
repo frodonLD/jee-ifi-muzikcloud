@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.ifi.com.muzikKloud.dao.ArtistDao;
 import org.ifi.com.muzikKloud.entity.Artist;
+import org.ifi.com.muzikKloud.entity.Song;
 import org.ifi.com.muzikKloud.service.ArtistService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -61,6 +62,16 @@ public class ArtistServiceImpl implements ArtistService {
 		return this.artistDao.getArtist(a.getName()) != null;
 	}
 
-	
+	@Override
+	public void updateArtistSongs(Artist a, Song s) {
+		// TODO Auto-generated method stub
+		this.artistDao.updateArtistSongs(a, s);
+	}
+
+	@Override
+	public void removeArtistSongs(Artist a, Song s) {
+		// TODO Auto-generated method stub
+		this.artistDao.removeArtistSongs(a, s);
+	}
 	
 }

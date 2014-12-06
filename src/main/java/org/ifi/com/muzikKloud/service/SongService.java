@@ -22,6 +22,11 @@ public interface SongService {
 	
 	public boolean addSong(String titre, int dateParution, String link, String[] artist_names, String album_name, String[] genres);
 	public Song getSong(int id);
+	public Song getSong(String name, String link);
 	public List<Song> getLastSongsAdded(int limit);
+	public boolean removeSong(int songId);
 	//public void commentSong(int id_song, String authorname, String content);
+	boolean updateSong(String titre, String ex_titre, int dateParution,
+			String fichier, String[] artist_names, String album_name,
+			String[] genres);
 }

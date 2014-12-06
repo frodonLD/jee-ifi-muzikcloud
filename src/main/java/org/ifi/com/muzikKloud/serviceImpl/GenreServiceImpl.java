@@ -3,7 +3,9 @@ package org.ifi.com.muzikKloud.serviceImpl;
 import java.util.List;
 
 import org.ifi.com.muzikKloud.dao.GenreDao;
+import org.ifi.com.muzikKloud.entity.Artist;
 import org.ifi.com.muzikKloud.entity.Genre;
+import org.ifi.com.muzikKloud.entity.Song;
 import org.ifi.com.muzikKloud.service.GenreService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -58,6 +60,12 @@ public class GenreServiceImpl implements GenreService {
 	public List<Genre> getAllGenres() {
 		// TODO Auto-generated method stub
 		return this.genreDao.getAllGenres();
+	}
+	
+	@Override
+	public void updateGenreSongs(Genre g, Song s) {
+		// TODO Auto-generated method stub
+		this.genreDao.updateGenreSongs(g, s);
 	}
 
 }

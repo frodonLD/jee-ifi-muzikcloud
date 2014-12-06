@@ -42,6 +42,23 @@
 	background-position:center center;
 }
 
+.logoSong.alone{
+	border: solid 1px;
+	background: silver;
+	min-height: 77px;
+	float: right;
+	margin-top: 7.7%;
+	width: 14%;
+	color: black;
+	font-size: 1.7em;
+	padding: 2px;
+	text-align: center;
+	background-image:url('../images/logoSong.png');
+	background-size: contain;
+	background-repeat:no-repeat;
+	background-position:center center;
+}
+
 .songAttribute{
 	display: inline-block;
 	width: 12%;
@@ -124,4 +141,8 @@ span.bubble {
 .success {
 	color: green;
 	font-weight: bold;
+}
+
+.removeSong{
+	cursor:pointer;
 }

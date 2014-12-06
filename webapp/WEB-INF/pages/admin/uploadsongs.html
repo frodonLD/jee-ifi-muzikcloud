@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head th:include="/common/layoutAdmin::head">
+<head th:with="title='Admin - Ajouter de la musique'" th:include="/common/layoutAdmin::head">
 </head>
 <body>
 	<div class="container" sec:authorize="hasRole('ROLE_ADMIN')">

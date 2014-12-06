@@ -1,7 +1,12 @@
 package org.ifi.com.muzikKloud.entity;
 
 import java.io.Serializable;
+
 import javax.persistence.*;
+
+import org.hibernate.annotations.Cascade;
+
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -10,41 +15,26 @@ import java.util.List;
  * 
  */
 @Entity
+@Table(name="song")
 @NamedQuery(name="Song.findAll", query="SELECT s FROM Song s")
 public class Song implements Serializable {
 	private static final long serialVersionUID = 1L;
-
-	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
 	private int id;
-
-	@Column(name="date_parution")
 	private int dateParution;
-
 	private String link;
-
 	private String titre;
-
-	//bi-directional many-to-many association to Artist
-	@ManyToMany(mappedBy="songs")
-	private List<Artist> artists;
-
-	//bi-directional many-to-one association to Commentaire
-	@OneToMany(mappedBy="song")
-	private List<Commentaire> commentaires;
-
-	//bi-directional many-to-many association to Genre
-	@ManyToMany(mappedBy="songs")
-	private List<Genre> genres;
-
-	//bi-directional many-to-one association to Album
-	@ManyToOne
-	@JoinColumn(name="id_album")
+	private List<Artist> artists = new ArrayList<Artist>();
+	private List<Commentaire> commentaires = new ArrayList<Commentaire>();
+	private List<Genre> genres = new ArrayList<Genre>();
 	private Album album;
 
 	public Song() {
 	}
 
+
+	@Id
+	@GeneratedValue(strategy=GenerationType.AUTO)
+	@Column(unique=true, nullable=false)
 	public int getId() {
 		return this.id;
 	}
@@ -53,6 +43,8 @@ public class Song implements Serializable {
 		this.id = id;
 	}
 
+
+	@Column(name="date_parution")
 	public int getDateParution() {
 		return this.dateParution;
 	}
@@ -61,6 +53,8 @@ public class Song implements Serializable {
 		this.dateParution = dateParution;
 	}
 
+
+	@Column(nullable=false, length=255)
 	public String getLink() {
 		return this.link;
 	}
@@ -69,6 +63,8 @@ public class Song implements Serializable {
 		this.link = link;
 	}
 
+
+	@Column(nullable=false, length=200)
 	public String getTitre() {
 		return this.titre;
 	}
@@ -77,6 +73,15 @@ public class Song implements Serializable {
 		this.titre = titre;
 	}
 
+
+	//bi-directional many-to-many association to Artist
+	//@ManyToMany(mappedBy="songs", fetch=FetchType.EAGER)
+//	@ManyToMany(mappedBy="songs", fetch=FetchType.EAGER, cascade = {javax.persistence.CascadeType.ALL})
+//	@Cascade(org.hibernate.annotations.CascadeType.ALL)
+	@ManyToMany(mappedBy="songs", fetch=FetchType.EAGER, cascade = {javax.persistence.CascadeType.PERSIST})
+	@Cascade(org.hibernate.annotations.CascadeType.PERSIST)
+//	@ManyToMany(mappedBy="songs", fetch=FetchType.EAGER, cascade = {javax.persistence.CascadeType.PERSIST})
+//	@Cascade(org.hibernate.annotations.CascadeType.PERSIST)
 	public List<Artist> getArtists() {
 		return this.artists;
 	}
@@ -85,6 +90,9 @@ public class Song implements Serializable {
 		this.artists = artists;
 	}
 
+
+	//bi-directional many-to-one association to Commentaire
+	@OneToMany(mappedBy="song", fetch=FetchType.EAGER)
 	public List<Commentaire> getCommentaires() {
 		return this.commentaires;
 	}
@@ -107,6 +115,9 @@ public class Song implements Serializable {
 		return commentaire;
 	}
 
+
+	//bi-directional many-to-many association to Genre
+	@ManyToMany(mappedBy="songs", fetch=FetchType.EAGER)
 	public List<Genre> getGenres() {
 		return this.genres;
 	}
@@ -115,6 +126,10 @@ public class Song implements Serializable {
 		this.genres = genres;
 	}
 
+
+	//bi-directional many-to-one association to Album
+	@ManyToOne
+	@JoinColumn(name="id_album", nullable=false)
 	public Album getAlbum() {
 		return this.album;
 	}
@@ -122,5 +137,25 @@ public class Song implements Serializable {
 	public void setAlbum(Album album) {
 		this.album = album;
 	}
+	
+	public void addArtist(Artist a) {
+		getArtists().add(a);
+        a.getSongs().add(this);
+    }
+ 
+    public void removeSong(Artist a) {
+    	getArtists().remove(a);
+        a.getSongs().remove(this);
+    }
+    
+    public void addGenre(Genre g) {
+		getGenres().add(g);
+        g.getSongs().add(this);
+    }
+ 
+    public void removeGenre(Genre g) {
+    	getGenres().remove(g);
+        g.getSongs().remove(this);
+    }
 
 }

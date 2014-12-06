@@ -16,4 +16,5 @@ public interface SongDao {
 	public void updateSong(int id, String titre, Date date_parution) throws DataAccessException;
 	public List<Song> getLastSongsAdded(int limit) throws DataAccessException;
 	public void deleteSong(int id) throws DataAccessException;
+	public boolean doesSongExist(Song s);
 }

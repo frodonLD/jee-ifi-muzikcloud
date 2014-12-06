@@ -17,7 +17,8 @@ public class AlbumServiceImpl implements AlbumService {
 	
 	@Override
 	public void addAlbum(Album al) {
-		this.albumDao.addAlbum(al);
+		if(!this.doesAllbumExist(al))
+			this.albumDao.addAlbum(al);
 	}
 
 	@Override

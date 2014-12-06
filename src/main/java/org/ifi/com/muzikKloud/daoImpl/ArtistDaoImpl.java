@@ -1,14 +1,15 @@
 package org.ifi.com.muzikKloud.daoImpl;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.Query;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
-
 import org.ifi.com.muzikKloud.dao.ArtistDao;
 import org.ifi.com.muzikKloud.entity.Artist;
+import org.ifi.com.muzikKloud.entity.Song;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Propagation;
@@ -25,9 +26,9 @@ public class ArtistDaoImpl implements ArtistDao {
 	@Transactional(propagation = Propagation.REQUIRED) 
 	public void addArtist(Artist a) throws DataAccessException{
 		// TODO Auto-generated method stub
-		System.out.println("ARTISTE ==>"+a);
-		System.out.println("ARTISTE_ID ==>"+a.getId());
-		System.out.println("ARTISTE_NAME ==>"+a.getName());
+		System.err.println("ARTISTE ==>"+a);
+		System.err.println("ARTISTE_ID ==>"+a.getId());
+		System.err.println("ARTISTE_NAME ==>"+a.getName());
 		this.entityManager.persist(a);
 	}
 
@@ -88,6 +89,24 @@ public class ArtistDaoImpl implements ArtistDao {
 		Query query = this.entityManager.createQuery(req);
 		query.setParameter(1, id);
 		query.executeUpdate();
+	}
+
+	@Override
+	@Transactional(propagation = Propagation.REQUIRED) 
+	public void updateArtistSongs(Artist a, Song s) throws DataAccessException {
+		// TODO Auto-generated method stub
+		Artist temp = this.entityManager.find(Artist.class, a.getId());
+		temp.addSong(s);
+		this.entityManager.merge(temp);
+	}
+
+	@Override
+	@Transactional(propagation = Propagation.REQUIRED) 
+	public void removeArtistSongs(Artist a, Song s) {
+		// TODO Auto-generated method stub
+		Artist temp = this.entityManager.find(Artist.class, a.getId());
+		temp.removeSong(s);
+		this.entityManager.merge(temp);
 	}
 
 	

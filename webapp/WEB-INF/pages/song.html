@@ -1,6 +1,6 @@
 <!DOCTYPE html>  
 <html xmlns:th="http://www.thymeleaf.org"> 
-	<head th:include="common/layout::head">
+	<head th:with="title=${'Muzikkloud - '+song.getTitre()}" th:include="common/layout::head">
 	</head>
 	<body>
 		<nav th:include="common/layout::nav">
