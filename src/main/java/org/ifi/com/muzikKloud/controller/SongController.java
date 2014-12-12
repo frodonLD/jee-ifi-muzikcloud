@@ -20,12 +20,13 @@ import org.ifi.com.muzikKloud.entity.CommentTemp;
 import org.ifi.com.muzikKloud.entity.Commentaire;
 import org.ifi.com.muzikKloud.entity.JsonResponse;
 import org.ifi.com.muzikKloud.entity.Song;
-import org.ifi.com.muzikKloud.entity.SongTempUpdate;
+import org.ifi.com.muzikKloud.message.JmsProducer;
 import org.ifi.com.muzikKloud.service.AlbumService;
 import org.ifi.com.muzikKloud.service.ArtistService;
 import org.ifi.com.muzikKloud.service.GenreService;
 import org.ifi.com.muzikKloud.service.SongService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.ui.Model;
 
 
@@ -41,6 +42,10 @@ public class SongController {
 	private AlbumService albumService;
 	
 	private static final Logger logger = Logger.getLogger(AdminController.class);
+	
+	private ClassPathXmlApplicationContext appContext = new ClassPathXmlApplicationContext(
+			new String[] { "spring-jms.xml" });
+	
 	
 	@RequestMapping("/songs")
 	public String showAllsong(Model model){
@@ -181,8 +186,11 @@ public class SongController {
 		boolean status = songService.commentSong(c.idSong, c.author, c.comment, Calendar.getInstance().getTime());
 		if (!status)
 			return new JsonResponse("KO", "Erreur lors de la création du commentaire");
-		else
+		else{
+			JmsProducer jmsProducer = (JmsProducer) this.appContext.getBean("jmsProducer");
+			jmsProducer.envoyerMessage("Test");
 			return new JsonResponse("OK", "");
+		}
 	}
 
 }
