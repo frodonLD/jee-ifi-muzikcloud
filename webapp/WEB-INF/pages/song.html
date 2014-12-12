@@ -27,7 +27,7 @@
 								
 								<div class="descLine"><span class="desc one">Artiste: </span>
 									<div class="cont">
-										<a th:each="a: ${song.getArtists()}" target="_blank" th:href="${'artist?id='+a.getId()}">
+										<a th:each="a: ${Artists}" target="_blank" th:href="${'artist?id='+a.getId()}">
 											<span class="bubble" th:text="${a.name}+' '"></span>
 										</a>
 									</div>

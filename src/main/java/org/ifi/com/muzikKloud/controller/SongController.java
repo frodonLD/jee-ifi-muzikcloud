@@ -1,8 +1,11 @@
 package org.ifi.com.muzikKloud.controller;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -50,6 +53,9 @@ public class SongController {
     public String showSong(@RequestParam(value="id", required=true)int idSong, Model model) {
 		Song s = songService.getSong(idSong);
 		model.addAttribute("song", s );
+		Set<Artist> st = new HashSet<>();
+		st.addAll(s.getArtists());
+		model.addAttribute("Artists", st.toArray());
 		return "song";
 	}
 	
@@ -61,6 +67,13 @@ public class SongController {
 	@RequestMapping("/admin/songs")
 	public String showAllsongInAdmin(Model model){
 		List<Song> songs = songService.getLastSongsAdded(0);
+		Artist[] art = {};
+		for (Song s : songs) {
+			Set<Artist> st = new HashSet<>();
+			st.addAll(s.getArtists());
+			ArrayList<Artist> artists = new ArrayList<Artist>(Arrays.asList((Artist[])st.toArray(art)));
+			s.setArtists(artists);
+		}
 		model.addAttribute("songs", songs );
 		return "admin/songs";
 	}
@@ -70,6 +83,9 @@ public class SongController {
     public String showSongInAdmin(@RequestParam(value="id", required=true)int idSong, Model model) {
 		Song s = songService.getSong(idSong);
 		model.addAttribute("song", s );
+		Set<Artist> st = new HashSet<>();
+		st.addAll(s.getArtists());
+		model.addAttribute("Artists", st.toArray());
 		return "admin/song";
 	}
 	

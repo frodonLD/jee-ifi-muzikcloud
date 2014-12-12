@@ -206,7 +206,7 @@ div.artistContainer{
 
  #frontBody a:hover{
 	text-decoration: none;
-	color: white;
+	*color: white;
 	
 }
 
