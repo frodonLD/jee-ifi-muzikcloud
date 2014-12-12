@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.ifi.com.muzikKloud.dao.AlbumDao;
 import org.ifi.com.muzikKloud.entity.Album;
+import org.ifi.com.muzikKloud.entity.Artist;
 import org.ifi.com.muzikKloud.service.AlbumService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -28,9 +29,17 @@ public class AlbumServiceImpl implements AlbumService {
 	}
 
 	@Override
-	public void updateAlbum(int id, String titre) {
+	public boolean updateAlbum(int id, String titre) {
 		// TODO Auto-generated method stub
+		Album a = new Album();
+		a.setTitre(titre);
+		a = this.albumDao.getAlbum(titre);
+		if(a != null)
+			return false;
+		a = new Album();
+		a.setTitre(titre);
 		this.albumDao.updateAlbum(id, titre);
+		return true;
 	}
 
 	@Override

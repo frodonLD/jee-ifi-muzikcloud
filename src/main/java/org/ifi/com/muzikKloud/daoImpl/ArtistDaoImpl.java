@@ -1,6 +1,5 @@
 package org.ifi.com.muzikKloud.daoImpl;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.Query;
@@ -26,9 +25,6 @@ public class ArtistDaoImpl implements ArtistDao {
 	@Transactional(propagation = Propagation.REQUIRED) 
 	public void addArtist(Artist a) throws DataAccessException{
 		// TODO Auto-generated method stub
-		System.err.println("ARTISTE ==>"+a);
-		System.err.println("ARTISTE_ID ==>"+a.getId());
-		System.err.println("ARTISTE_NAME ==>"+a.getName());
 		this.entityManager.persist(a);
 	}
 
@@ -36,17 +32,14 @@ public class ArtistDaoImpl implements ArtistDao {
 	@Transactional(propagation = Propagation.REQUIRED) 
 	public void updateArtist(int id, String name) throws DataAccessException{
 		// TODO Auto-generated method stub
-		String req = "update table artist set name = ? where id = ? ";
-		Query query = this.entityManager.createQuery(req);
-		query.setParameter(1, name);
-		query.setParameter(2, id);
-		query.executeUpdate();
+		Artist atmp = this.entityManager.find(Artist.class, id);
+		atmp.setName(name);
 	}
 
 	
 	public Artist getArtist(int id) throws DataAccessException{
 		// TODO Auto-generated method stub
-		String req = "select a from artist  where a.id = ? ";
+		String req = "select a from Artist a where a.id = ? ";
 		Query query = this.entityManager.createQuery(req);
 		query.setParameter(1, id);
 		try{
@@ -59,7 +52,7 @@ public class ArtistDaoImpl implements ArtistDao {
 	
 	public Artist getArtist(String name) throws DataAccessException{
 		// TODO Auto-generated method stub
-		String req = "select a from Artist a  where a.name = ? ";
+		String req = "select a from Artist a  where a.name = ?";
 		Query query = this.entityManager.createQuery(req);
 		query.setParameter(1, name);
 		try{
@@ -74,10 +67,8 @@ public class ArtistDaoImpl implements ArtistDao {
 	@Override
 	public List<Artist> getAllArtist() throws DataAccessException{
 		// TODO Auto-generated method stub
-		System.out.println("ARTIST DAO");
 		Query query = this.entityManager.createNamedQuery("Artist.findAll");
 		List<Artist> result = (List<Artist>) query.getResultList();
-		System.out.println(result);
 		return result;
 	}
 
@@ -92,23 +83,10 @@ public class ArtistDaoImpl implements ArtistDao {
 	}
 
 	@Override
-	@Transactional(propagation = Propagation.REQUIRED) 
-	public void updateArtistSongs(Artist a, Song s) throws DataAccessException {
+	public List<Song> getAllSongOfArtist(Artist a) throws DataAccessException {
 		// TODO Auto-generated method stub
-		Artist temp = this.entityManager.find(Artist.class, a.getId());
-		temp.addSong(s);
-		this.entityManager.merge(temp);
+		Artist atmp = this.entityManager.find(a.getClass(), a.getId());
+		return atmp.getSongs();
 	}
-
-	@Override
-	@Transactional(propagation = Propagation.REQUIRED) 
-	public void removeArtistSongs(Artist a, Song s) {
-		// TODO Auto-generated method stub
-		Artist temp = this.entityManager.find(Artist.class, a.getId());
-		temp.removeSong(s);
-		this.entityManager.merge(temp);
-	}
-
-	
 
 }

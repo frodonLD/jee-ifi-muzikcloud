@@ -1,8 +1,8 @@
 <!DOCTYPE html>  
 <html xmlns:th="http://www.thymeleaf.org"> 
-	<head th:with="title='Admin - Toute la musique'" th:include="common/layoutAdmin::head">
+	<head th:with="title='Admin - Toute la musique'"  th:include="common/layoutAdmin::head">
 	</head>
-	<body>
+	<body sec:authorize="isAuthenticated()">
 		<!-- Modal -->
 		<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 		  <div class="modal-dialog">
@@ -12,7 +12,7 @@
 		        <h4 class="modal-title" id="myModalLabel">Confirmation...</h4>
 		      </div>
 		      <div class="modal-body">
-		        Voulez-vous vraiment supprimer ce son? (Cette oépartion est <b>irréversible</b>)
+		        Voulez-vous vraiment supprimer ce son? (Cette opération est <b>irréversible</b>)
 		      </div>
 		      <div class="modal-footer">
 		        <button type="button" class="btn btn-default" data-dismiss="modal">Annuler</button>
@@ -22,7 +22,6 @@
 		    </div>
 		  </div>
 		</div>
-	
 		<div class="container">
 			<nav th:include="common/layoutAdmin::nav">
 			</nav>
@@ -48,7 +47,7 @@
 				        		<li th:text="${artist.name}"></li> 
 				        	</ul>
 				        </td>
-				        <td><a th:if="${song.album} != null" th:text="${song.album.titre}" th:href="${'album?id='+song.album.getId()}"></a></td>
+				        <td><span th:if="${song.album} != null" th:text="${song.album.titre}"></span></td>
 				        <td>
 				        	<a th:href="${'updatesong?id='+song.getId()}">Mofifier</a> | 
 				        	<a class="removeSong" data-toggle="modal" data-target="#myModal">Supprimer</a>
@@ -59,4 +58,11 @@
 		</div>
 	
 	</body>
+	
+	<script>
+		$(document).ready(function() {
+			$(".current").removeClass("current");
+			$("._songs").addClass("current");
+		});
+	</script>
 </html>

@@ -1,14 +1,22 @@
 package org.ifi.com.muzikKloud.controller;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.apache.log4j.Logger;
 import org.ifi.com.muzikKloud.entity.Album;
+import org.ifi.com.muzikKloud.entity.Artist;
+import org.ifi.com.muzikKloud.entity.CommentTemp;
+import org.ifi.com.muzikKloud.entity.JsonResponse;
 import org.ifi.com.muzikKloud.entity.Song;
+import org.ifi.com.muzikKloud.entity.SongTempUpdate;
 import org.ifi.com.muzikKloud.service.AlbumService;
 import org.ifi.com.muzikKloud.service.ArtistService;
 import org.ifi.com.muzikKloud.service.GenreService;
@@ -72,10 +80,9 @@ public class SongController {
 		if(s != null){
 			error = false;
 			model.addAttribute("s", s);
-			ArrayList<Album> allAlbums = (ArrayList<Album>) albumService.getAllAlbums();
 			model.addAttribute("error", error);
 			model.addAttribute("allArtists", artistService.getAllArtists());
-			model.addAttribute("allAlbums", allAlbums);
+			model.addAttribute("allAlbums", albumService.getAllAlbums());
 			return "admin/updatesong";
 		}
 		return "404";
@@ -84,9 +91,68 @@ public class SongController {
 	
 	@RequestMapping("/admin/removesong")
 	public String removeSong(@RequestParam(value="id", required=true)int idSong, Model model){
-		boolean error = true;
-		error = !this.songService.removeSong(idSong);
+		boolean error = !this.songService.removeSong(idSong);
 		model.addAttribute("error", error);
 		return "redirect:/admin/songs";
 	}
+	
+	@RequestMapping("/artists")
+	public String showAllArtists(Model model){
+		model.addAttribute("allArtists", artistService.getAllArtists());
+		return "artists";
+	} 
+	
+	@RequestMapping("/artist")
+    public String showArtistSongs(@RequestParam(value="id", required=true)int idArtist, Model model) {
+		Artist a = artistService.getArtist(idArtist);
+		if(a != null){
+			model.addAttribute("a", a);
+			model.addAttribute("songs", this.artistService.getAllSongOfArtist(a));
+			return "artistSong";
+		}
+		return "404";
+		
+	}
+	
+	@RequestMapping("/admin/artists")
+	public String showAllArtistsInAdmin(Model model){
+		model.addAttribute("allArtists", artistService.getAllArtists());
+		return "admin/artists";
+	} 
+	
+	
+	@RequestMapping("/albums")
+	public String showAllAlbums(Model model){
+		List<Album> allAlbums = albumService.getAllAlbums();
+		model.addAttribute("allAlbums", allAlbums );
+		return "albums";
+	} 
+	
+	@RequestMapping("/admin/albums")
+	public String showAllAlbumsInAdmin(Model model){
+		List<Album> allAlbums = albumService.getAllAlbums();
+		model.addAttribute("allAlbums", allAlbums );
+		return "admin/albums";
+	} 
+	
+	@RequestMapping("/album")
+    public String showAlbumSongs(@RequestParam(value="id", required=true)int idAlbum, Model model) {
+		Album al = albumService.getAlbum(idAlbum);
+		if(al != null){
+			model.addAttribute("al", al);
+			return "albumSong";
+		}
+		return "404";
+	}
+	
+	@RequestMapping(value = "/commentsong", method = RequestMethod.POST, consumes = "application/json", produces = "application/json")
+	public @ResponseBody
+	JsonResponse insertComment(@RequestBody CommentTemp c) {
+		boolean status = songService.commentSong(c.idSong, c.author, c.comment, Calendar.getInstance().getTime());
+		if (!status)
+			return new JsonResponse("KO", "Erreur lors de la création du commentaire");
+		else
+			return new JsonResponse("OK", "");
+	}
+
 }

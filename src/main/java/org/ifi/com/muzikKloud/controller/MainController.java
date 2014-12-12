@@ -1,14 +1,9 @@
 package org.ifi.com.muzikKloud.controller;
 
-import java.util.List;
-
-import org.ifi.com.muzikKloud.entity.Artist;
-import org.ifi.com.muzikKloud.entity.Song;
 import org.ifi.com.muzikKloud.service.ArtistService;
 import org.ifi.com.muzikKloud.service.SongService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 
@@ -18,42 +13,58 @@ public class MainController {
 	private SongService songService;
 	@Autowired
 	private ArtistService artistService;
-	private int limit = 20;
 
 	/**
-	 * Display welcome page and bind the 5 last songs added
+	 * Display welcome page
 	 * @return
 	 */
 	@RequestMapping("/")
-	public String welcome(Model model){
-		List<Song> allSongs = songService.getLastSongsAdded(limit);
-		model.addAttribute("lastSongs", allSongs );
+	public String welcome(){
 		return "home";
 	}    
 	
+	/**
+	 * Display welcome page
+	 * @return
+	 */
 	@RequestMapping("/home")
-	public String welcomeBis(Model model){
-		List<Song> allSongs = songService.getLastSongsAdded(limit);
-		model.addAttribute("lastSongs", allSongs );
-		return "home";
+	public String welcomeBis(){
+		return this.welcome();
 	}  
 	
+	/**
+	 * Display login page
+	 * @return
+	 */
 	@RequestMapping("/login")
 	public String login(){
 		return "login";
-	} 
+	}
 	
+	/**
+	 * Display techno page
+	 * @return
+	 */
+	@RequestMapping("/technologies")
+	public String techno(){
+		return "techno";
+	}
+	
+	/**
+	 * Display 403 page
+	 * @return
+	 */
 	@RequestMapping("/403")
 	public String notAllowed(){
 		return "403";
 	}
 	
-	@RequestMapping("/artists")
-	public String showAllArtists(Model model){
-		List<Artist> allArtists = artistService.getAllArtists();
-		//System.out.println(allArtists);
-		model.addAttribute("allArtists", allArtists );
-		return "artists";
-	} 
-	
+	/**
+	 * Display 404 page
+	 * @return
+	 */
+	@RequestMapping("/404")
+	public String notFound(){
+		return "404";
+	}
 }

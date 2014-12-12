@@ -48,7 +48,7 @@ public class Artist implements Serializable {
 		this.name = name;
 	}
 
-
+/*
 	//bi-directional many-to-many association to Song
 //	@ManyToMany(fetch=FetchType.EAGER, cascade = {javax.persistence.CascadeType.PERSIST})
 //	@Cascade(org.hibernate.annotations.CascadeType.PERSIST)
@@ -63,6 +63,9 @@ public class Artist implements Serializable {
 			@JoinColumn(name="id_song", nullable=false)
 			}
 		)
+	*/
+	@ManyToMany(mappedBy="artists", fetch=FetchType.EAGER, cascade = {javax.persistence.CascadeType.ALL})
+	@Cascade(org.hibernate.annotations.CascadeType.ALL)
 	public List<Song> getSongs() {
 		return this.songs;
 	}

@@ -8,6 +8,7 @@ import javax.persistence.Query;
 
 import org.ifi.com.muzikKloud.dao.AlbumDao;
 import org.ifi.com.muzikKloud.entity.Album;
+import org.ifi.com.muzikKloud.entity.Artist;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Propagation;
@@ -30,7 +31,7 @@ public class AlbumDaoImpl implements AlbumDao {
 	@Override
 	public Album getAlbum(int id) throws DataAccessException {
 		// TODO Auto-generated method stub
-		String req = "select a from album where a.id = ?";
+		String req = "select a from Album a where a.id = ?";
 		Query query = this.entityManager.createQuery(req);
 		query.setParameter(1, id);
 		return (Album) query.getSingleResult();
@@ -40,11 +41,8 @@ public class AlbumDaoImpl implements AlbumDao {
 	@Transactional(propagation = Propagation.REQUIRED)
 	public void updateAlbum(int id, String titre) throws DataAccessException {
 		// TODO Auto-generated method stub
-		String req = "update table album set titre = ? where id = ? ";
-		Query query = this.entityManager.createQuery(req);
-		query.setParameter(1, titre);
-		query.setParameter(2, id);
-		query.executeUpdate();
+		Album al = this.entityManager.find(Album.class, id);
+		al.setTitre(titre);
 	}
 
 	@Override

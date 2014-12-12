@@ -3,7 +3,7 @@
 <head th:with="title=${'Admin - Modifier '+s.titre}"
 	th:include="/common/layoutAdmin::head">
 </head>
-<body>
+<body sec:authorize="isAuthenticated()">
 	<!-- Modal -->
 	<div class="modal fade" id="myModal" tabindex="-1" role="dialog"
 		aria-labelledby="myModalLabel" aria-hidden="true">
@@ -51,7 +51,7 @@
 
 			<a class="removeSong" data-toggle="modal" data-target="#myModal">Supprimer</a>
 			<input type="hidden" class="idSong" th:value="${s.getId()}"></input>
-			<form id="updateForm" th:action="@{/admin/addsongs}" method="post">
+			<form id="updateForm" method="post">
 				<div class="col-md-12 content-to-add">
 					<div class="logoSong alone"></div>
 					<input type="hidden" class="file" th:value="${s.link}" /> <input

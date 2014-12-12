@@ -73,7 +73,7 @@ public class Song implements Serializable {
 		this.titre = titre;
 	}
 
-
+/*
 	//bi-directional many-to-many association to Artist
 	//@ManyToMany(mappedBy="songs", fetch=FetchType.EAGER)
 //	@ManyToMany(mappedBy="songs", fetch=FetchType.EAGER, cascade = {javax.persistence.CascadeType.ALL})
@@ -81,7 +81,22 @@ public class Song implements Serializable {
 	@ManyToMany(mappedBy="songs", fetch=FetchType.EAGER, cascade = {javax.persistence.CascadeType.PERSIST})
 	@Cascade(org.hibernate.annotations.CascadeType.PERSIST)
 //	@ManyToMany(mappedBy="songs", fetch=FetchType.EAGER, cascade = {javax.persistence.CascadeType.PERSIST})
+//	@Cascade(org.hibernate.annotations.CascadeType.PERSIST)*/
+	//bi-directional many-to-many association to Song
+//	@ManyToMany(fetch=FetchType.EAGER, cascade = {javax.persistence.CascadeType.PERSIST})
 //	@Cascade(org.hibernate.annotations.CascadeType.PERSIST)
+	
+	@ManyToMany(fetch=FetchType.EAGER, cascade = {javax.persistence.CascadeType.ALL})
+	@Cascade(org.hibernate.annotations.CascadeType.ALL)
+	@JoinTable(
+		name="rel_artist_song"
+		, joinColumns={
+			@JoinColumn(name="id_song", nullable=false)
+			}
+		, inverseJoinColumns={
+			@JoinColumn(name="id_artist", nullable=false)
+			}
+		)
 	public List<Artist> getArtists() {
 		return this.artists;
 	}
@@ -143,7 +158,7 @@ public class Song implements Serializable {
         a.getSongs().add(this);
     }
  
-    public void removeSong(Artist a) {
+    public void removeArtist(Artist a) {
     	getArtists().remove(a);
         a.getSongs().remove(this);
     }

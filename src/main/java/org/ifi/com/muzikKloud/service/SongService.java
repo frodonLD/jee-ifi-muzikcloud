@@ -1,5 +1,6 @@
 package org.ifi.com.muzikKloud.service;
 
+import java.util.Date;
 import java.util.List;
 
 import org.ifi.com.muzikKloud.entity.Song;
@@ -25,7 +26,7 @@ public interface SongService {
 	public Song getSong(String name, String link);
 	public List<Song> getLastSongsAdded(int limit);
 	public boolean removeSong(int songId);
-	//public void commentSong(int id_song, String authorname, String content);
+	public boolean commentSong(int id_song, String authorname, String content, Date date);
 	boolean updateSong(String titre, String ex_titre, int dateParution,
 			String fichier, String[] artist_names, String album_name,
 			String[] genres);

@@ -1,7 +1,7 @@
 
 <beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
-	xmlns:context="http://www.springframework.org/schema/context" xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xmlns:context="http://www.springframework.org/schema/context" 
 	xmlns:mvc="http://www.springframework.org/schema/mvc"
 	xsi:schemaLocation="
     	http://www.springframework.org/schema/mvc 
@@ -9,10 +9,8 @@
         http://www.springframework.org/schema/beans
         http://www.springframework.org/schema/beans/spring-beans.xsd
         http://www.springframework.org/schema/context
-        http://www.springframework.org/schema/context/spring-context.xsd
-        http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd">
-
-
+        http://www.springframework.org/schema/context/spring-context.xsd">
+        
 	<context:annotation-config />
 	<context:component-scan base-package="org.ifi.com.muzikKloud.controller" />
 
@@ -22,10 +20,16 @@
 		<property name="prefix" value="/WEB-INF/pages/" />
 		<property name="suffix" value=".html" />
 		<property name="templateMode" value="HTML5" />
+		<property name="cacheable" value="true" />
 	</bean>
 
 	<bean id="templateEngine" class="org.thymeleaf.spring4.SpringTemplateEngine">
-		<property name="templateResolver" ref="templateResolver" />
+		<property name="templateResolver" ref="templateResolver"/>
+		<property name="additionalDialects">
+			<set>
+	        	<bean class="org.thymeleaf.extras.springsecurity3.dialect.SpringSecurityDialect" />
+	        </set>
+        </property>
 	</bean>
 
 	<bean class="org.thymeleaf.spring4.view.ThymeleafViewResolver">

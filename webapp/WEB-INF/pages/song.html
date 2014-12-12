@@ -2,22 +2,80 @@
 <html xmlns:th="http://www.thymeleaf.org"> 
 	<head th:with="title=${'Muzikkloud - '+song.getTitre()}" th:include="common/layout::head">
 	</head>
-	<body>
-		<nav th:include="common/layout::nav">
-		</nav>
-	
-		<div class="container">
-			<p th:text="${song.id}"></p>  
-	        <p th:text="${song.getTitre()}"></p>
-	        <p th:text="${song.getDateParution()}"></p> 
-	        <p th:text="${song.getLink()}"></p>
-	        <!-- Display the audio player with control buttons. -->
-		    <audio controls="" autoplay="" loop="" th:src="${'audios/'+song.getLink()}">
-		  		HTML5 audio not supported
-		    </audio>
-		</div>
-		
-		 	
-	
+	<body id="frontBody">
+		<!-- Header -->
+		<header id="header" class="skel-layers-fixed" th:include="common/layout::nav">
+		</header>
+		<!-- Main -->
+		<article id="main" class="one">
+			<section class="wrapper style4 container">
+				<!-- Content -->
+				<div class="content">
+					<section>
+						<!-- <a href="#" class="image featured"><img th:src="@{/ressources/images/pic04.jpg}" alt="" /></a> -->
+						<header>
+							<h3 class="bold" th:text="${song.getTitre()}"></h3>
+						</header>
+						<div class="songDisplay">
+							<div class="songContent">
+								<div class="descLine"><span class="desc one">Année: </span>
+									<div class="cont">
+										<span class="bubble"
+											th:text="${song.getDateParution()}"></span>
+									</div>
+								</div>
+								
+								<div class="descLine"><span class="desc one">Artiste: </span>
+									<div class="cont">
+										<a th:each="a: ${song.getArtists()}" target="_blank" th:href="${'artist?id='+a.getId()}">
+											<span class="bubble" th:text="${a.name}+' '"></span>
+										</a>
+									</div>
+								</div>
+								
+								<div class="descLine"><span class="desc one">Album: </span>
+									<div class="cont">
+										<a  th:if="${song.album} != null" th:href="${'album?id='+song.album.getId()}">
+											<span class="bubble" th:text="${song.album.titre}" ></span>
+										</a>
+										<span class="bubble" th:if="${song.album} == null">Album Inconnu</span>
+									</div>
+								</div>
+							</div>
+							<div class="comments">
+								<h5>Note Moyenne</h5>
+								<br/>
+								<h5>Donner une note</h5>
+								<form id="commentForm" method="post">
+									<div class="form-group">
+										<input type="hidden" class="idSong" th:value="${song.getId()}"/>
+										<label for="author" class="required">Pseudo*</label>
+									    <input type="text" class="pseudo form-control required" name="author" placeholder="Entrez votre pseudo"></input>
+									</div>
+									<div class="form-group">
+										<label for="comment" class="required">Note*</label>
+										<textarea name="comment" class="comment form-control required" rows="3"></textarea>
+									</div>
+									<button type="submit" class="btn btn-default">Noter</button>
+								</form>
+								
+							</div>
+						</div>
+						<div class="right" >
+							<div class="logoSong one"></div>
+							<audio  controls="" autoplay="" loop="" th:src="${'audios/'+song.getLink()}">
+								HTML5 audio not supported
+							</audio>
+						</div>
+					</section>
+				</div>
+			</section>
+		</article>
 	</body>
+	<script>
+		$(document).ready(function() {
+			$(".current").removeClass("current");
+			$("._songs").addClass("current");
+		});
+	</script>
 </html>

@@ -1,0 +1,42 @@
+<!DOCTYPE html>  
+<html xmlns:th="http://www.thymeleaf.org"> 
+	<head th:with="title='Muzikkloud - Gus &amp; Frodon'" th:include="common/layout::head">
+	</head>
+	<body>
+		<!-- Header -->
+		<header id="header" class="skel-layers-fixed" th:include="common/layout::nav">
+		</header>
+		<!-- Main -->
+		<article id="main" class="one">
+			<section class="wrapper style4 container">
+				<!-- Content -->
+				<div class="content">
+					<section>
+						<header>
+							<h3 class="bold">Technologies utilisées</h3>
+						</header>
+						<div class="songDisplay">
+						<ul>
+							<li>Spring MVC 4</li>
+							<li>Hibernate</li>
+							<li>JPA With MySql</li>
+							<li>Spring Security</li>
+							<li>Log4j</li>
+							<li>JUnit</li>
+							<li>Tomcat</li>
+							<li>Thymeleaf</li>
+							<li>HTML5, CSS3, Javascript</li>
+						</ul>
+						</div>
+					</section>
+				</div>
+			</section>
+		</article>
+	</body>
+	<script>
+		$(document).ready(function() {
+			$(".current").removeClass("current");
+			$("._GF").addClass("current");
+		});
+	</script>
+</html>

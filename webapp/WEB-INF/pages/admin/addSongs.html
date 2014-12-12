@@ -2,10 +2,10 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head th:with="title='Admin - Ajouter de la musique'" th:include="/common/layoutAdmin::head">
 </head>
-<body>
-	<div class="container" sec:authorize="hasRole('ROLE_ADMIN')">
-		<nav th:include="/common/layoutAdmin::nav"></nav>
-		
+<body sec:authorize="isAuthenticated()">
+	<nav th:include="common/layoutAdmin::nav">
+	</nav>
+	<div class="container">
 		<div class="notifications col-md-12" th:if="${error} == true">
 			<span class="error" th:if="${msg}" th:text="${msg}"></span>
 		</div>
@@ -19,7 +19,7 @@
 		</div>
 		
 		<div th:if="${error} == false" class="content col-md-12">
-			<form id="uploadForm" th:action="@{/admin/addsongs}" method="post">
+			<form id="uploadForm" method="post">
 				<div class="col-md-12 content-to-add" th:each="s: ${songTmp}" th:with="nb=${#ids.seq('id')}">
 					<input type="hidden" class="file" th:name="${'fichier_'+nb}" th:value="${s.fichier}"/>
 					<input type="hidden" class="listOfGenre" th:name="${'genreList_'+nb}" th:value="${s.fichier}"/>

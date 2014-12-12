@@ -39,14 +39,26 @@ public class CommentaireDaoImpl implements CommentaireDao {
 		}
 	}
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings("deprecation")
 	@Override
-	public List<Commentaire> getCommentaire(String author) throws DataAccessException{
+	public boolean doesSongBeCommented(Commentaire c)
+			throws DataAccessException {
 		// TODO Auto-generated method stub
-		String req = "from Commentaire c where c.authorname = ?";
+		String req = "from Commentaire c where c.author = ?";
 		Query query = this.entityManager.createQuery(req);
-		query.setParameter(1, author);
-		return (List<Commentaire>) query.getSingleResult();
+		query.setParameter(1, c.getAuthor());
+		@SuppressWarnings("unchecked")
+		List<Commentaire> result = (List<Commentaire>) query.getResultList();
+		int i = 0;
+		for (Commentaire commentaire : result) {
+			if(c.getDateCommentaire().getDate() == commentaire.getDateCommentaire().getDate() &&
+					c.getDateCommentaire().getMonth() == commentaire.getDateCommentaire().getMonth() &&
+					c.getDateCommentaire().getYear() == commentaire.getDateCommentaire().getYear())
+				i++;
+		}
+		if(result.isEmpty() || i < 3)
+			return true;
+		return false;
 	}
 	
 

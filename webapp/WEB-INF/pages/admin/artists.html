@@ -1,0 +1,54 @@
+<!DOCTYPE html>  
+<html xmlns:th="http://www.thymeleaf.org"> 
+	<head th:with="title='Admin - Les artistes'"  th:include="common/layoutAdmin::head">
+	</head>
+	<body sec:authorize="isAuthenticated()">
+		<!-- Modal -->
+		<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+		  <div class="modal-dialog">
+		    <div class="modal-content">
+		      <div class="modal-header">
+		        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+		        <h4 class="modal-title" id="myModalLabel">Confirmation...</h4>
+		      </div>
+		      <div class="modal-body">
+		        Voulez-vous vraiment supprimer cet artiste? (Cette opération est <b>irréversible</b>)
+		      </div>
+		      <div class="modal-footer">
+		        <button type="button" class="btn btn-default" data-dismiss="modal">Annuler</button>
+		        <button type="button" id="delete" class="btn btn-primary">Oui</button>
+		        <input type="hidden" id="SongToRemove" value="NULL"></input>
+		      </div>
+		    </div>
+		  </div>
+		</div>
+		<div class="container">
+			<nav th:include="common/layoutAdmin::nav">
+			</nav>
+			<table class="table table-condensed">  
+	    		<thead>  
+				    <tr>  
+				        <th>Nom</th> 
+				    </tr>  
+			    </thead>  
+			    <tbody>  
+				    <tr class="song" th:each="a : ${allArtists}">  
+				        <input type="hidden" class="idArtist" th:value="${a.getId()}"></input>
+				        <input type="hidden" class="type" value="updateartist"></input>
+				        <td>
+				        	<a th:text="${a.name}" class="nameArtist" href="#"></a>
+				        </td>  
+				    </tr>  
+			    </tbody>  
+			</table>
+		</div>
+	
+	</body>
+	
+	<script>
+		$(document).ready(function() {
+			$(".current").removeClass("current");
+			$("._songs").addClass("current");
+		});
+	</script>
+</html>

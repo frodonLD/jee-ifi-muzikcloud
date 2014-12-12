@@ -1,6 +1,7 @@
 package org.ifi.com.muzikKloud.daoImpl;
 
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -27,7 +28,7 @@ public class SongDaoImpl implements SongDao {
 	public void addSong(Song s) throws DataAccessException{
 		// TODO Auto-generated method stub
 		if(!this.doesSongExist(s))
-			this.entityManager.persist(s);
+			this.entityManager.merge(s);
 	}
 
 	@Override
@@ -44,44 +45,21 @@ public class SongDaoImpl implements SongDao {
 
 	@Override
 	@Transactional(propagation = Propagation.REQUIRED) 
-	public void updateSong(int id, String titre) throws DataAccessException{
+	public void updateSong(int id, Song s) throws DataAccessException{
 		// TODO Auto-generated method stub
-		String req = "update table song set titre = ? where id = ? ";
-		Query query = this.entityManager.createQuery(req);
-		query.setParameter(1, titre);
-		query.setParameter(2, id);
-		query.executeUpdate();
+		Song tmp = this.getSong(id);
+		tmp.setTitre(s.getTitre());
+		tmp.setDateParution(s.getDateParution());
+		tmp.setAlbum(s.getAlbum());
+		List<Artist> nouveaux = s.getArtists();
+		List<Artist> lisTmp = new ArrayList<Artist>();
+		for(Artist a : nouveaux){
+			Artist atmp = this.entityManager.find(a.getClass(), a.getId());
+			lisTmp.add(atmp);
+		}
+		tmp.setArtists(lisTmp);
 	}
-
-	@Override
-	@Transactional(propagation = Propagation.REQUIRED) 
-	public void updateSong(int id, Date date_parution) throws DataAccessException{
-		// TODO Auto-generated method stub
-		String req = "update table song set date_parution = ? where id = ? ";
-		Query query = this.entityManager.createQuery(req);
-		query.setParameter(1, date_parution);
-		query.setParameter(2, id);
-		query.executeUpdate();
-	}
-
-	@Override
-	@Transactional(propagation = Propagation.REQUIRED) 
-	public void updateSong(int id, String titre, Date date_parution) throws DataAccessException{
-		// TODO Auto-generated method stub
-		this.updateSong(id, date_parution);
-		this.updateSong(id, titre);
-	}
-
-	/*@Override
-	@Transactional(propagation = Propagation.REQUIRED) 
-	public void deleteSong(int id) throws DataAccessException{
-		// TODO Auto-generated method stub
-		String req = "delete from song where id = ? ";
-		Query query = this.entityManager.createQuery(req);
-		query.setParameter(1, id);
-		query.executeUpdate();
-	}
-	*/
+	
 	@Override
 	@Transactional(propagation = Propagation.REQUIRED) 
 	public void deleteSong(int id) throws DataAccessException{

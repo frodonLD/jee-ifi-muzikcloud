@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:with="title=${'Admin - Modifier '+s.titre}"
+	th:include="/common/layoutAdmin::head">
+</head>
+<body sec:authorize="isAuthenticated()">
+	<!-- Modal -->
+	<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+		  <div class="modal-dialog">
+		    <div class="modal-content">
+		      <div class="modal-header">
+		        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+		        <h4 class="modal-title" id="myModalLabel">Confirmation...</h4>
+		      </div>
+		      <div class="modal-body">
+		        Voulez-vous vraiment supprimer cet artiste? (Cette opération est <b>irréversible</b>)
+		      </div>
+		      <div class="modal-footer">
+		        <button type="button" class="btn btn-default" data-dismiss="modal">Annuler</button>
+		        <button type="button" id="delete" class="btn btn-primary">Oui</button>
+		        <input type="hidden" id="SongToRemove" value="NULL"></input>
+		      </div>
+		    </div>
+		  </div>
+		</div>
+		
+	<div class="container" sec:authorize="hasRole('ROLE_ADMIN')">
+		<nav th:include="/common/layoutAdmin::nav"></nav>
+
+		<div class="notifications col-md-12" th:if="${error} == true">
+			<span class="error" th:if="${msg}" th:text="${msg}"></span>
+		</div>
+		<div class="notifications col-md-12" th:if="${error} == false">
+			<span class="success" th:if="${msg}" th:text="${msg}"></span>
+		</div>
+
+		<!-- <div th:if="${error} == false" class="header col-md-12">
+			<h3>Ajouter de la musique</h3>
+			<h4>Veuillez indiquer les informations relatives aux musiques que vous venez d'uploader</h4>
+		</div> -->
+
+		<div th:if="${error} == false" class="content song col-md-12">
+			<audio controls="" loop="" 
+				th:src="${'../audios/'+s.getLink()}">
+				HTML5 audio not supported
+			</audio>
+			
+		
+
+			<a class="removeSong" data-toggle="modal" data-target="#myModal">Supprimer</a>
+			<input type="hidden" class="idSong" th:value="${s.getId()}"></input>
+			<form id="updateForm" method="post">
+				<div class="col-md-12 content-to-add">
+					<div class="logoSong alone"></div>
+					<input type="hidden" class="file" th:value="${s.link}" /> <input
+						type="hidden" class="ex_titre" th:value="${s.titre}"></input>
+					<div data-toggle="tooltip" data-placement="left"
+						title="Modifier le titre" class="col-md-10 line">
+						<span class="songAttribute">Titre</span> <input type="text"
+							class="title" th:name="titre" th:value="${s.titre}"></input>
+					</div>
+					<div data-toggle="tooltip" data-placement="left"
+						title="Modifier l'année" class="col-md-10 line">
+						<span class="songAttribute">Année</span> <input type="number"
+							min="1900" max="2014" class="year" name="date"
+							th:value="${s.dateParution}"></input>
+					</div>
+
+					<div data-toggle="tooltip" data-placement="left"
+						title="Associer des artistes" class="col-md-10 line dropable">
+						<span class="songAttribute">Artiste(s)</span>
+					</div>
+
+					<div class="col-md-10 line infos showable">
+						<div class="col-md-6 artistOfSong artists">
+							<h5>Artiste:</h5>
+							<div class="box artistList">
+								<span title="Supprimer" class="bubble removable"
+									th:each="a: ${s.getArtists()}" th:text="${a.name}+' '"></span>
+							</div>
+						</div>
+						<div class="col-md-6 allArtist artists">
+							<h5>Tous les artistes:</h5>
+							<div class="box existingArtistList">
+								<span data-tooltip="Ajouter" class="bubble addable"
+									th:each="a: ${allArtists}" th:text="${a.name}+' '"></span>
+							</div>
+
+						</div>
+					</div>
+
+					<div data-toggle="tooltip" data-placement="left"
+						title="Associer un album" class="col-md-10 line dropable">
+						<span class="songAttribute">Album</span>
+					</div>
+
+					<div class="col-md-10 line infos showable">
+						<div class="col-md-6 albumOfSong albums">
+							<h5>Album:</h5>
+							<div class="box albumList">
+								<span th:if="${s.album} != null" title="Supprimer"
+									class="bubble removable" th:text="${s.album.titre}+' '"></span>
+							</div>
+						</div>
+						<div class="col-md-6 allAlbum albums">
+							<h5>Tous les albums:</h5>
+							<div class="box existingAlbumList">
+								<span data-tooltip="Ajouter" class="bubble addable"
+									th:each="al: ${allAlbums}" th:text="${al.titre}+''"></span>
+							</div>
+						</div>
+					</div>
+
+					<!-- <div data-toggle="tooltip" data-placement="left" title="Associer des genres" class="col-md-10 line dropable">
+						<span class="songAttribute">Genre(s)</span>
+					</div>
+					<div class="col-md-10 line infos showable">
+						<div class="col-md-6 genreOfSong genres">
+							<h5>Genre:</h5>
+							<div class="box genreList">
+							</div>
+						</div>
+						<div class="col-md-6 allGenre genres" >
+							<h5>Tous les genres:</h5>
+							<div class="box existingGenreList">
+								<span data-tooltip="Ajouter" class="bubble addable" th:each="g: ${allGenres}" th:text="${g.name}+' '"></span>
+							</div>
+						</div>
+					</div> -->
+				</div>
+
+				<div class="buttons btn-group content col-md-12">
+					<button class="btn btn-default" type="submit">Modifier</button>
+					<a class="btn btn-default" href="songs">Annuler</a>
+				</div>
+
+			</form>
+		</div>
+		<br /> <br />
+	</div>
+</body>
+</html>

@@ -1,0 +1,32 @@
+<!DOCTYPE html>  
+<html xmlns:th="http://www.thymeleaf.org"> 
+	<head th:with="title='Muzikkloud - Les albums'" th:include="common/layout::head">  
+	</head>
+	<body id="frontBody">
+	<!-- Header -->
+		<header id="header" class="skel-layers-fixed" th:include="common/layout::nav">
+		</header>
+		<!-- Main -->
+		<article id="main" class="one">
+			<section class="wrapper style1 container special">
+				<div class="row">
+					<div class="3u 12u(2)" th:each="album : ${allAlbums}">
+						<section class="">
+							<footer>
+								<ul class="buttons">
+									<li><a th:href="${'album?id='+album.id}" class="button small" th:text="${album.titre}"></a></li>
+								</ul>
+							</footer>
+						</section>
+					</div>
+				</div>
+			</section>
+		</article>
+	</body>
+	<script>
+		$(document).ready(function() {
+			$(".current").removeClass("current");
+			$("._albums").addClass("current");
+		});
+	</script>
+</html>

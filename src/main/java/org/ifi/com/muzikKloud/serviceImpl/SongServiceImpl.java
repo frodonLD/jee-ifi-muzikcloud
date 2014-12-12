@@ -1,6 +1,7 @@
 package org.ifi.com.muzikKloud.serviceImpl;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.ifi.com.muzikKloud.dao.SongDao;
@@ -10,6 +11,7 @@ import org.ifi.com.muzikKloud.entity.Genre;
 import org.ifi.com.muzikKloud.entity.Song;
 import org.ifi.com.muzikKloud.service.AlbumService;
 import org.ifi.com.muzikKloud.service.ArtistService;
+import org.ifi.com.muzikKloud.service.CommentaireService;
 import org.ifi.com.muzikKloud.service.GenreService;
 import org.ifi.com.muzikKloud.service.SongService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +28,8 @@ public class SongServiceImpl implements SongService {
 	private AlbumService albumService;
 	@Autowired
 	private ArtistService artistService;
+	@Autowired
+	private CommentaireService commentaireService;
 
 	private Genre produceGenreEntity(Genre g) {
 		return this.genreService.getGenre(g.getName());
@@ -40,12 +44,7 @@ public class SongServiceImpl implements SongService {
 	}
 	
 	private Song produceSongEntity(Song s) {
-		Song tmp = this.songDao.getSong(s.getTitre(), s.getLink());
-		if(tmp == null){
-			this.songDao.addSong(s);
-			return this.getSong(s.getTitre(), s.getLink());
-		}
-		return tmp;
+		return this.getSong(s.getTitre(), s.getLink());
 	}
 
 	@Override
@@ -60,8 +59,6 @@ public class SongServiceImpl implements SongService {
 			Artist tmp = new Artist();
 			tmp.setName(a.trim());
 			System.err.println("Artiste ::: "+a);
-			this.artistService.addArtist(tmp);
-			tmp = this.produceArtistEntity(tmp);
 			System.err.println("Id ::: "+tmp.getId());
 			artists.add(tmp);
 		}
@@ -86,22 +83,19 @@ public class SongServiceImpl implements SongService {
 		s.setDateParution(dateParution);
 		if(this.songDao.doesSongExist(s))
 			return false;
+		System.err.println("Saving Song ---------------------");
 		for (Artist a : artists) {
-			System.err.println("Saving Song ---------------------");
 			System.err.println("Artist ["+a.getName()+"]");
-			System.err.println("Id : "+a.getId());
-			s = this.produceSongEntity(s);
-			System.err.println("Song Id ::: "+s.getId());
-			this.artistService.updateArtistSongs(a, s);
+			Artist tmp = this.produceArtistEntity(a);
+			if(tmp != null){
+				a = tmp;
+				System.err.println("Id : "+a.getId());
+			}
+			s.addArtist(a);
 		}
-		
-		/*for (Genre g : genres) {
-			System.err.println("Genre ["+g.getName()+"]");
-			System.err.println("["+g.getId()+"]");
-			s = this.produceSongEntity(s);
-			System.err.println("Song Id ::: "+s.getId());
-			this.genreService.updateGenreSongs(g, s);
-		}*/
+		this.songDao.addSong(s);
+		s = this.produceSongEntity(s);
+		System.err.println("Song Id ::: "+s.getId());
 		return true;
 
 	}
@@ -118,56 +112,49 @@ public class SongServiceImpl implements SongService {
 		return this.songDao.getLastSongsAdded(limit);
 	}
 	
-
-
 	@Override
 	public boolean updateSong(String titre, String ex_titre, int dateParution, String fichier,
 			String[] artist_names, String album_name, String[] genres) {
+		Song tmp = new Song();
 		Song s = new Song();
-		s.setLink(fichier);
-		s.setTitre(ex_titre);
-		s = this.produceSongEntity(s);
-		
+		String title = ex_titre;
+		tmp.setLink(fichier);
+		tmp.setTitre(ex_titre);
 		if(!titre.equals(ex_titre)){
-			s.setTitre(titre);
+			tmp.setTitre(titre);
+			title = titre;
+			if(this.songDao.doesSongExist(tmp))
+				return false;
 		}
-		
-		if(s.getAlbum()!= null && !s.getAlbum().getTitre().equals(album_name)){
-			if (!album_name.trim().isEmpty() && !album_name.trim().equals(new String(""))) {
-				Album al = new Album();
-				al.setTitre(album_name.trim());
-				this.albumService.addAlbum(al);
-				al = this.produceAlbumEntity(al);
-				s.setAlbum(al);
-			} else {
-				s.setAlbum(null);
-			}
+		tmp.setTitre(ex_titre);
+		tmp = this.produceSongEntity(tmp);
+		tmp.setLink(fichier);
+		tmp.setTitre(title);
+		int id = tmp.getId();
+		s.setLink(fichier);
+		s.setTitre(title);
+		s.setDateParution(dateParution);
+		if (!album_name.trim().isEmpty() && !album_name.trim().equals(new String(""))) {
+			Album al = new Album();
+			al.setTitre(album_name.trim());
+			this.albumService.addAlbum(al);
+			al = this.produceAlbumEntity(al);
+			s.setAlbum(al);
+		} else {
+			s.setAlbum(null);
 		}
-		List<Artist> artists =  s.getArtists();
-		for (Artist art : artists){
-			boolean found = false;
-			for (String a : artist_names) {
-				if(art.getName().trim().equals(a.trim()))
-					found = true;
-			}
-			if(!found){
-				this.artistService.removeArtistSongs(art, s);
-			}
-		}
-			
 		
 		for (String a : artist_names) {
-			Artist tmp = new Artist();
-			tmp.setName(a.trim());
-			this.artistService.addArtist(tmp);
-			tmp = this.produceArtistEntity(tmp);
-			System.err.println("Id ::: "+tmp.getId());
-			this.artistService.updateArtistSongs(tmp, s);
+			if(!a.equals("")){
+				Artist atmp = new Artist();
+				atmp.setName(a.trim());
+				this.artistService.addArtist(atmp);
+				atmp = this.produceArtistEntity(atmp);
+				s.addArtist(atmp);
+			}
 		}
-		
-		
-		// TODO Auto-generated method stub
-		return false;
+		this.songDao.updateSong(id, s);
+		return true;
 	}
 
 	@Override
@@ -184,6 +171,16 @@ public class SongServiceImpl implements SongService {
 	public Song getSong(String name, String link) {
 		// TODO Auto-generated method stub
 		return this.songDao.getSong(name, link);
+	}
+
+	@Override
+	public boolean commentSong(int id_song, String authorname, String content,
+			Date date) {
+		// TODO Auto-generated method stub
+		Song s = this.songDao.getSong(id_song);
+		if(s == null)
+			return false;
+		return this.commentaireService.addCommentaire(authorname, content, s, date);
 	}
 	
 }

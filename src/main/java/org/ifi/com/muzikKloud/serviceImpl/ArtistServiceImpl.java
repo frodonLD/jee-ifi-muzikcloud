@@ -37,18 +37,9 @@ public class ArtistServiceImpl implements ArtistService {
 	@Override
 	public List<Artist> getAllArtists() {
 		// TODO Auto-generated method stub
-		System.out.println("ARTIST SERVICE");
 		return artistDao.getAllArtist();
 	}
 	
-	@Override
-	public void updateArtist(int id, String name) {
-		// TODO Auto-generated method stub
-		Artist a = new Artist();
-		a.setName(name);
-		if(!this.doesArtistExists(a))
-			this.artistDao.updateArtist(id, name);
-	}
 
 	@Override
 	public void deleteArtist(int id) {
@@ -63,15 +54,23 @@ public class ArtistServiceImpl implements ArtistService {
 	}
 
 	@Override
-	public void updateArtistSongs(Artist a, Song s) {
+	public List<Song> getAllSongOfArtist(Artist a) {
 		// TODO Auto-generated method stub
-		this.artistDao.updateArtistSongs(a, s);
+		return this.artistDao.getAllSongOfArtist(a);
 	}
 
 	@Override
-	public void removeArtistSongs(Artist a, Song s) {
+	public boolean updateArtist(int id, String name) {
 		// TODO Auto-generated method stub
-		this.artistDao.removeArtistSongs(a, s);
+		Artist a = new Artist();
+		a.setName(name);
+		a = this.artistDao.getArtist(a.getName());
+		if(a != null)
+			return false;
+		a = new Artist();
+		a.setName(name);
+		this.artistDao.updateArtist(id, name);
+		return true;
 	}
 	
 }

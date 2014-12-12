@@ -11,8 +11,7 @@ public interface ArtistDao {
 	public Artist getArtist(int id) throws DataAccessException;
 	public Artist getArtist(String name) throws DataAccessException;
 	public List<Artist> getAllArtist() throws DataAccessException;
+	public List<Song> getAllSongOfArtist(Artist a) throws DataAccessException;
 	public void updateArtist(int id, String name) throws DataAccessException;
-	public void updateArtistSongs(Artist a, Song s) throws DataAccessException;
 	public void deleteArtist(int id) throws DataAccessException;
-	public void removeArtistSongs(Artist a, Song s);
 }
