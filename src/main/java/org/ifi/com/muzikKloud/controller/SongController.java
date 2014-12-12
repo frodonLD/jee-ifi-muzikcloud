@@ -17,6 +17,7 @@ import org.apache.log4j.Logger;
 import org.ifi.com.muzikKloud.entity.Album;
 import org.ifi.com.muzikKloud.entity.Artist;
 import org.ifi.com.muzikKloud.entity.CommentTemp;
+import org.ifi.com.muzikKloud.entity.Commentaire;
 import org.ifi.com.muzikKloud.entity.JsonResponse;
 import org.ifi.com.muzikKloud.entity.Song;
 import org.ifi.com.muzikKloud.entity.SongTempUpdate;
@@ -52,10 +53,23 @@ public class SongController {
 	@RequestMapping("/song")
     public String showSong(@RequestParam(value="id", required=true)int idSong, Model model) {
 		Song s = songService.getSong(idSong);
+		int note = 0, i = 0, temp = 0;
 		model.addAttribute("song", s );
 		Set<Artist> st = new HashSet<>();
 		st.addAll(s.getArtists());
 		model.addAttribute("Artists", st.toArray());
+		List<Commentaire> commentaires = s.getCommentaires();
+		for (Commentaire c : commentaires) {
+			i++;
+			temp = Integer.parseInt(c.getContent());
+			note += temp;
+		}
+		if(i > 0){
+			note = note/i;
+		}
+		model.addAttribute("nbAvis", i);
+		model.addAttribute("note", note);
+		model.addAttribute("gris", 5 - note);
 		return "song";
 	}
 	

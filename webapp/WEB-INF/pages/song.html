@@ -42,22 +42,37 @@
 									</div>
 								</div>
 							</div>
-							<div class="comments">
+							<div class="comments" th:with="listNote = ${#numbers.sequence(1,note)}, listGris = ${#numbers.sequence(1,gris)}, listAll = ${#numbers.sequence(1,5)}">
 								<h5>Note Moyenne</h5>
+								<p class="notifications"></p>
+								<input type="hidden" class="note" th:value="${note}"/>
+								<input type="hidden" class="gris" th:value="${gris}"/>
+								<span class="etoile etoile-pleine" th:if="${note} &gt; 0" th:each="n : ${listNote}"></span>
+								<span class="etoile etoile-vide" th:if="${gris} &gt; 0" th:each="g : ${listGris}"></span>
+								<span class="textNote" th:text="${note}+'/5'"></span><span class="textNote1" th:if="${note} &gt; 0" th:text="'pour un total de '+${nbAvis}+' avis.'"></span><div></div>
 								<br/>
 								<h5>Donner une note</h5>
-								<form id="commentForm" method="post">
+								
+								<form id="commentForm" method="post" class="form" role="form">
 									<div class="form-group">
 										<input type="hidden" class="idSong" th:value="${song.getId()}"/>
-										<label for="author" class="required">Pseudo*</label>
+										<label for="author" class="">Pseudo*</label>
 									    <input type="text" class="pseudo form-control required" name="author" placeholder="Entrez votre pseudo"></input>
 									</div>
-									<div class="form-group">
-										<label for="comment" class="required">Note*</label>
-										<textarea name="comment" class="comment form-control required" rows="3"></textarea>
+									<div class="form-group voteDiv">
+										<label for="comment" class="sr-only">Note*</label>
+										<span class="vote etoile etoile-vide" id="" th:each="g : ${listAll}"></span>
+										<input type="hidden" class="comment" value=""/>
 									</div>
 									<button type="submit" class="btn btn-default">Noter</button>
 								</form>
+								<br/>
+								<h5 id="viewComments">Voir toutes les notes</h5>
+								<div class="commentBlock" th:each="c: ${song.commentaires}" th:with="content=${c.content}, lesgris=5-${content}, notes = ${#numbers.sequence(1,content)}, gris = ${#numbers.sequence(1,lesgris)}">
+									<span th:text="${c.author}"></span>
+									<span class="etoile etoile-pleine" th:each="n : ${notes}"></span>
+									<span th:if="${lesgris} &gt; 0" class="etoile etoile-vide" th:each="g : ${gris}"></span>
+								</div>
 								
 							</div>
 						</div>

@@ -50,14 +50,21 @@ public class CommentaireDaoImpl implements CommentaireDao {
 		@SuppressWarnings("unchecked")
 		List<Commentaire> result = (List<Commentaire>) query.getResultList();
 		int i = 0;
+		boolean vire = false;
 		for (Commentaire commentaire : result) {
-			if(c.getDateCommentaire().getDate() == commentaire.getDateCommentaire().getDate() &&
-					c.getDateCommentaire().getMonth() == commentaire.getDateCommentaire().getMonth() &&
-					c.getDateCommentaire().getYear() == commentaire.getDateCommentaire().getYear())
-				i++;
+			if(c.getSong().getId() == commentaire.getSong().getId()){
+				vire = true;
+			}
+//			if(c.getDateCommentaire().getDate() == commentaire.getDateCommentaire().getDate() &&
+//					c.getDateCommentaire().getMonth() == commentaire.getDateCommentaire().getMonth() &&
+//					c.getDateCommentaire().getYear() == commentaire.getDateCommentaire().getYear())
+//				i++;
 		}
-		if(result.isEmpty() || i < 3)
+		if(vire)
 			return true;
+		
+//		if(result.isEmpty() || i < 3)
+//			return true;
 		return false;
 	}
 	

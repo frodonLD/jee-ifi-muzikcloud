@@ -176,7 +176,7 @@
 
 /* Form */
 
-	input[type="text"],
+	/* input[type="text"],
 	input[type="password"],
 	input[type="email"],
 	textarea {
@@ -198,7 +198,7 @@
 		text-decoration: none;
 		width: 100%;
 		outline: 0;
-	}
+	} */
 
 		input[type="text"]:focus,
 		input[type="password"]:focus,

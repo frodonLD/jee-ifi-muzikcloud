@@ -31,7 +31,7 @@ public class CommentaireServiceImpl implements CommentaireService {
 		c.setContent(content);
 		c.setDateCommentaire(date);
 		c.setSong(s);
-		if(this.commentaireDao.doesSongBeCommented(c)){
+		if(!this.commentaireDao.doesSongBeCommented(c)){
 			this.commentaireDao.addCommentaire(c);
 			return true;
 		}
