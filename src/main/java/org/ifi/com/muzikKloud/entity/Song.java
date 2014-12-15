@@ -86,8 +86,8 @@ public class Song implements Serializable {
 //	@ManyToMany(fetch=FetchType.EAGER, cascade = {javax.persistence.CascadeType.PERSIST})
 //	@Cascade(org.hibernate.annotations.CascadeType.PERSIST)
 	
-	@ManyToMany(fetch=FetchType.EAGER, cascade = {javax.persistence.CascadeType.ALL})
-	@Cascade(org.hibernate.annotations.CascadeType.ALL)
+	@ManyToMany(fetch=FetchType.EAGER, cascade = {javax.persistence.CascadeType.MERGE})
+	@Cascade(org.hibernate.annotations.CascadeType.MERGE)
 	@JoinTable(
 		name="rel_artist_song"
 		, joinColumns={

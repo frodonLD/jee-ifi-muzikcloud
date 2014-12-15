@@ -1,13 +1,13 @@
 <!DOCTYPE html>  
 <html xmlns:th="http://www.thymeleaf.org"> 
-	<head th:with="title=${'Muzikkloud - '+song.getTitre()}" th:include="common/layout::head">
+	<!-- <head th:with="title=${'Muzikkloud - '+song.getTitre()}" th:include="common/layout::head">
 	</head>
 	<body id="frontBody">
-		<!-- Header -->
+		Header
 		<header id="header" class="skel-layers-fixed" th:include="common/layout::nav">
 		</header>
-		<!-- Main -->
-		<article id="main" class="one">
+		Main -->
+		<article id="main">
 			<section class="wrapper style4 container">
 				<!-- Content -->
 				<div class="content">
@@ -15,9 +15,14 @@
 						<!-- <a href="#" class="image featured"><img th:src="@{/ressources/images/pic04.jpg}" alt="" /></a> -->
 						<header>
 							<h3 class="bold" th:text="${song.getTitre()}"></h3>
+							<span class="addPL glyphicon glyphicon-plus">Ajouter à ma playlist</span>
+							<input type="hidden" class="plLink" th:value="${'audios/'+song.getLink()}"/>
+							<input type="hidden" class="plName" th:value="${song.titre}"/>
 						</header>
 						<div class="songDisplay">
 							<div class="songContent">
+								
+								
 								<div class="descLine"><span class="desc one">Année: </span>
 									<div class="cont">
 										<span class="bubble"
@@ -69,7 +74,7 @@
 								<br/>
 								<h5 id="viewComments">Voir toutes les notes</h5>
 								<div class="commentBlock" th:each="c: ${song.commentaires}" th:with="content=${c.content}, lesgris=5-${content}, notes = ${#numbers.sequence(1,content)}, gris = ${#numbers.sequence(1,lesgris)}">
-									<span th:text="${c.author}"></span>
+									<span class="authorSpan" th:text="${c.author}"></span>
 									<span class="etoile etoile-pleine" th:each="n : ${notes}"></span>
 									<span th:if="${lesgris} &gt; 0" class="etoile etoile-vide" th:each="g : ${gris}"></span>
 								</div>
@@ -78,7 +83,7 @@
 						</div>
 						<div class="right" >
 							<div class="logoSong one"></div>
-							<audio  controls="" autoplay="" loop="" th:src="${'audios/'+song.getLink()}">
+							<audio  controls="" th:src="${'audios/'+song.getLink()}">
 								HTML5 audio not supported
 							</audio>
 						</div>
@@ -86,11 +91,11 @@
 				</div>
 			</section>
 		</article>
-	</body>
+	<!-- </body>
 	<script>
 		$(document).ready(function() {
 			$(".current").removeClass("current");
 			$("._songs").addClass("current");
 		});
-	</script>
+	</script> -->
 </html>

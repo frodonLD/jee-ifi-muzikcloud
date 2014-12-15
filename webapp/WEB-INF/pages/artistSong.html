@@ -1,23 +1,21 @@
 <!DOCTYPE html>  
 <html xmlns:th="http://www.thymeleaf.org"> 
-	<head th:with="title=${'Muzikkloud - Sons de '+a.name}"  th:include="common/layout::head">
+	<!--<head th:with="title=${'Muzikkloud - Sons de '+a.name}"  th:include="common/layout::head">
 	</head>
 	<body id="frontBody">
 	
-	<!-- Header -->
 		<header id="header" class="skel-layers-fixed" th:include="common/layout::nav">
 		</header>
 		
-		<!-- Banner -->
-		<!-- Main -->
+		 -->
 			<article id="main">
-				<h2 style="text-align:center;" ><strong th:text="${a.name}"></strong></h2>
+				<h2 style="text-align:center; color:white;" ><strong th:text="${a.name}"></strong></h2>
 				<section class="wrapper style1 container special">
 					<div class="row">
 						<div class="3u 12u(2)" th:each="song : ${songs}">
 							<section class="sectionBox">
 								<header class="title">
-									<h3><a th:text="${song.titre}" th:href="${'song?id='+song.getId()}"></a></h3>
+									<h3><a class="navLink" th:text="${song.titre}" th:href="${'song?id='+song.getId()}"></a></h3>
 								</header>
 								<div class="songDesc">
 									<div class="descLine"><span class="desc">Année : </span><span class="attr" th:text="${song.getDateParution()}"></span></div>
@@ -32,7 +30,7 @@
 								</div>
 								<footer>
 									<ul class="buttons">
-										<li><a th:href="${'song?id='+song.getId()}" class="button small">&Eacute;couter</a></li>
+										<li><a th:href="${'song?id='+song.getId()}" class="button small navLink">&Eacute;couter</a></li>
 									</ul>
 								</footer>
 							</section>
@@ -40,12 +38,6 @@
 					</div>
 				</section>
 			</article>
-	
-	</body>
-	<script>
-		$(document).ready(function() {
-			$(".current").removeClass("current");
-			$("._artists").addClass("current");
-		});
-	</script>
+	<!-- 
+	</body> -->
 </html>

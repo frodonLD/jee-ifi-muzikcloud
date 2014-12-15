@@ -20,7 +20,6 @@
             /WEB-INF/applicationContext.xml
             /WEB-INF/dispatcher-servlet.xml
             /WEB-INF/spring-security.xml 
-            <!-- /WEB-INF/spring-jms.xml -->
         </param-value>
     </context-param>
     

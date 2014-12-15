@@ -25,7 +25,7 @@
 	padding-bottom: 5px;
 }
 
-.logoSong{
+.logoSong {
 	*border: solid 1px;
 	background: silver;
 	min-height: 77px;
@@ -36,13 +36,13 @@
 	font-size: 1.7em;
 	padding: 2px;
 	text-align: center;
-	background-image:url('../images/logoSong.png');
+	background-image: url('../images/logoSong.png');
 	background-size: contain;
-	background-repeat:no-repeat;
-	background-position:center center;
+	background-repeat: no-repeat;
+	background-position: center center;
 }
 
-.logoSong.alone{
+.logoSong.alone {
 	*border: solid 1px;
 	background: silver;
 	min-height: 77px;
@@ -53,13 +53,13 @@
 	font-size: 1.7em;
 	padding: 2px;
 	text-align: center;
-	background-image:url('../images/logoSong.png');
+	background-image: url('../images/logoSong.png');
 	background-size: contain;
-	background-repeat:no-repeat;
-	background-position:center center;
+	background-repeat: no-repeat;
+	background-position: center center;
 }
 
-.songAttribute{
+.songAttribute {
 	display: inline-block;
 	width: 12%;
 	border-bottom: solid 1px;
@@ -68,32 +68,31 @@
 	padding-bottom: 2px;
 }
 
-.line.dropable .songAttribute{
-	border-right: none;	
+.line.dropable .songAttribute {
+	border-right: none;
 	border-bottom: none;
 }
 
-.line.dropable{
+.line.dropable {
 	border: solid 1px gray;
-	cursor: pointer;	
+	cursor: pointer;
 }
 
-.line{
+.line {
 	margin-left: 15px;
 	margin-top: 1%;
 }
 
-.line:hover{
+.line:hover {
+	
 }
 
-.line.showable{
-	display:none;
-	visibility:hidden;
+.line.showable {
+	display: none;
+	visibility: hidden;
 }
 
-.artistOfSong, .allArtist,
-.genreOfSong, .allGenre,
-.albumOfSong, .allAlbum {
+.artistOfSong,.allArtist,.genreOfSong,.allGenre,.albumOfSong,.allAlbum {
 	border: solid 1px gray;
 }
 
@@ -115,7 +114,8 @@ span.bubble {
 	padding: 5px;
 	border-radius: 5px;
 }
-.existingGenreList, .genreList {
+
+.existingGenreList,.genreList {
 	min-height: 50px;
 }
 
@@ -124,12 +124,11 @@ span.bubble {
 	color: white;
 }
 
-.new_artist, .new_genre, .new_album, .title {
+.new_artist,.new_genre,.new_album,.title {
 	width: 40%;
 }
 
-
-.error, .error2 {
+.error,.error2 {
 	color: red;
 	font-weight: bold;
 }
@@ -138,7 +137,7 @@ span.bubble {
 	border: solid 1px red;
 }
 
-.errorBox{
+.errorBox {
 	color: red;
 	border: solid 1px red;
 }
@@ -148,97 +147,102 @@ span.bubble {
 	font-weight: bold;
 }
 
-.removeSong, .vote, #viewComments{
+.removeSong,.vote,#viewComments {
 	cursor: pointer;
 }
 
-div.off{
-	display:inline-block;
-	float:right;
+div.off {
+	display: inline-block;
+	float: right;
 	cursor: pointer;
 	height: 40px;
 	width: 10%;
 	margin-right: -8px;
-	background-image:url('../images/mute.png');
+	background-image: url('../images/mute.png');
 	background-size: contain;
-	background-repeat:no-repeat;
-	background-position:center center;
-	
+	background-repeat: no-repeat;
+	background-position: center center;
 }
 
-section.sectionBox{
-	border: solid 1px;
+section.sectionBox {
+	border: solid 1px white;
 	padding-bottom: 5px;
 	*background: #83d3c9;
 	border-radius: 10px;
 }
 
-div.songDesc{
-	height: 75px;
-	max-height: 75px;
-	text-align: left;
-	background: rgb(243, 246, 250);
-	margin-bottom:5px;
+.title h3 a{
+	color:white;
 }
 
-.attr{
-	clear: both;
-	margin-left: 3px;
-	margin-right: 3px;
-}
-
-.desc{
-	float: left;
-	width: 35%;
-}
-
-.desc.one{
-	float: left;
-	width: 10%;
-}
-
-.desc, .artistContainer, .attr, .cont{
-	display: inline-block;
-}
-div.descLine{
-	*border: solid 1px;
-	padding-left: 5px;
-}
-
-div.artistContainer{
-	width: 60%;
-}
-
- #frontBody a:hover{
-	text-decoration: none;
-	*color: white;
-	
-}
-
-h3 a:hover{
+.title h3 a:hover {
 	text-decoration: none;
 	color: black;
 	font-weight: bold;
 }
 
-div.songDisplay{
+div.songDesc {
+	height: 75px;
+	max-height: 75px;
+	text-align: left;
+	background: rgb(243, 246, 250);
+	margin-bottom: 5px;
+}
+
+.attr {
+	clear: both;
+	margin-left: 3px;
+	margin-right: 3px;
+}
+
+.desc {
+	float: left;
+	width: 35%;
+}
+
+.desc.one {
+	float: left;
+	width: 10%;
+}
+
+.desc,.artistContainer,.attr,.cont {
+	display: inline-block;
+}
+
+div.descLine {
+	*border: solid 1px;
+	padding-left: 5px;
+}
+
+div.artistContainer {
+	width: 60%;
+}
+
+#frontBody a:hover {
+	text-decoration: none;
+	*color: white;
+}
+
+
+
+div.songDisplay {
 	width: 70%;
 	*border: solid 1px red;
-	border-left: solid 5px white;	
-	border-right: solid 5px white;	
-	display:inline-block;
+	border-left: solid 5px white;
+	border-right: solid 5px white;
+	display: inline-block;
 	padding-bottom: 5px;
 	padding-left: 2%;
 	padding-right: 2%;
 	margin-top: -15px;
 }
 
-div.songDisplay:hover{
-	border-left: solid 5px;	
-	border-right: solid 5px;	
+div.songDisplay:hover {
+	border-left: solid 5px;
+	border-right: solid 5px;
 }
 
-.logoSong.one{
+.logoSong.one {
 	*border: solid 1px;
 	background: silver;
 	min-height: 165px;
@@ -248,84 +252,192 @@ div.songDisplay:hover{
 	font-size: 1.7em;
 	padding: 2px;
 	text-align: center;
-	background-image:url('../images/logoSong.png');
+	background-image: url('../images/logoSong.png');
 	background-size: contain;
-	background-repeat:no-repeat;
-	background-position:center center;
-	display:inline-block;
-	
+	background-repeat: no-repeat;
+	background-position: center center;
+	display: inline-block;
 }
 
-.right{
+.right {
 	width: 30%;
 	float: right;
 	margin-top: -34px;
 }
 
-.right audio{
+.right audio {
 	width: 100%;
 }
 
-.songContent{
+.songContent {
 	margin-top: 5%;
 }
 
-.comments{
+.comments {
 	margin-top: 5%;
-	
 }
 
-.comments h5{
+.comments h5 {
 	border-top: solid 1px;
 	border-bottom: solid 1px;
 }
 
-.bold{
+.bold {
 	font-weight: bold;
 }
 
-#main.one{
-	padding: 5em 0;
-}
-
-.cont a{
+.cont a {
 	text-decoration: none;
-	border-bottom : none;
+	border-bottom: none;
 }
 
-.modal-content.bis{
+.modal-content.bis {
 	background: #484339;
 }
 
-header.title{
-	display:block;
+header.title {
+	display: block;
 	width: 100%;
-	height: 90px;
-	border-bottom: 3px dashed;
+	height: 80px;
+	*border-bottom: 3px dashed;
 }
 
-.textNote, .textNote1{
+.textNote,.textNote1 {
 	display: inline-block;
 }
-.textNote1{
+
+.textNote1 {
 	margin-left: 5%;
 }
 
-.etoile{
+.etoile {
 	display: inline-block;
 	width: 20px;
 	height: 20px;
 	margin-top: 1px;
 }
 
-span.etoile-pleine{
-	background-image:url('../images/star_orange-20x20.png');
+span.etoile-pleine {
+	background-image: url('../images/star_orange-20x20.png');
 }
 
-span.etoile-vide{
-	background-image:url('../images/star_gris-20x20.png');
+span.etoile-vide {
+	background-image: url('../images/star_gris-20x20.png');
 }
 
-#commentForm{
+#commentForm {
 	width: 40%;
+}
+
+.audiojs {
+	width: 100%;
+}
+
+.audiojs .scrubber {
+	width: 43%;
+}
+
+.mPlayer {
+	min-height: 720px;
+	padding: 1em 0;
+	width: 18%;
+	position:fixed;
+}
+
+.mPlayer:hover {
+	*border-right: 2px solid white;
+}
+
+.mPlayer .mWrapper{
+	border: 2px solid white;
+	background-image: url("images/dark-tl.svg"), url("images/dark-tr.svg"), url("images/dark-bl.svg"), url("images/dark-br.svg");
+	background-position: top left, top right, bottom left, bottom right;
+	background-repeat: no-repeat;
+	background-size: 25em;
+	*padding: 7em 0;
+	background-color:white;
+	min-height: 500px;
+}
+
+.mPlayer h1{
+	tex-align: center;
+	font-weight: bold;
+	color: white;
+}
+
+.buttons{
+	color:white;
+}
+
+.buttons a:hover{
+	color:white;
+}
+
+
+#main {
+	border-top: 3px solid white;
+	padding: 1em 0;
+	margin-left: 1em;
+}
+
+article {
+	margin-top: 6%;
+}
+
+body.index #main{
+	padding-top: 1em;
+}
+
+
+div.row {
+	margin: 0px;
+	width: 100%;
+}
+
+.row>* {
+	padding: 0em 0;
+	padding-right: 1em;
+	padding-bottom: 1em;
+}
+
+.mContainer {
+	clear: both;
+	display: inline-block;
+	width: 73%;
+	margin-left: 18%;
+}
+
+#frontBody {
+	background-attachment: scroll, scroll, scroll, fixed;
+	background-color: #645862;
+	background-image: url("images/light-bl.svg"), url("images/light-br.svg"),
+		url("images/overlay.png"), url("../images/banner.jpg");
+	background-position: bottom left, bottom right, top left, top center;
+	background-repeat: no-repeat, no-repeat, repeat, no-repeat;
+	background-size: 25em, 25em, auto, cover;
+	cursor: default;
+}
+
+.\33 u {
+	width: 23%;
+}
+
+#banner{
+	padding-left:13em;
+}
+
+.authorSpan{
+	display: inline-block;
+	min-width: 15%;
+	font-weight: bold;
+}
+
+.addPL{
+	border: solid 1px #645862;
+	color:white;
+	background: #645862;
+	display: inline-block;
+	cursor: pointer;
+	border-radius: 5px;
+	padding: 5px;
 }

@@ -1,20 +1,18 @@
 <!DOCTYPE html>  
 <html xmlns:th="http://www.thymeleaf.org"> 
-	<head th:with="title='Muzikkloud - Les artistes'" th:include="common/layout::head">  
+	<!-- <head th:with="title='Muzikkloud - Les artistes'" th:include="common/layout::head">  
 	</head>
 	<body id="frontBody">
-	<!-- Header -->
 		<header id="header" class="skel-layers-fixed" th:include="common/layout::nav">
-		</header>
-		<!-- Main -->
-		<article id="main" class="one">
+		</header> -->
+		<article id="main" >
 			<section class="wrapper style1 container special">
 				<div class="row">
 					<div class="3u 12u(2)" th:each="artist : ${allArtists}">
 						<section class="">
 							<footer>
 								<ul class="buttons">
-									<li><a th:href="${'artist?id='+artist.id}" class="button small" th:text="${artist.name}"></a></li>
+									<li><a th:href="${'artist?id='+artist.id}" class="navLink button small" th:text="${artist.name}"></a></li>
 								</ul>
 							</footer>
 						</section>
@@ -22,11 +20,5 @@
 				</div>
 			</section>
 		</article>
-	</body>
-	<script>
-		$(document).ready(function() {
-			$(".current").removeClass("current");
-			$("._artists").addClass("current");
-		});
-	</script>
+	<!-- </body> -->
 </html>

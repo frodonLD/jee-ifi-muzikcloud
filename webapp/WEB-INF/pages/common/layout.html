@@ -10,15 +10,16 @@
 		<meta name="keywords" content="" />
 		<link type="text/css" th:href="@{ressources/css/bootstrap.min.css}"
 			rel="stylesheet" />
-		<link rel="stylesheet" th:href="@{/ressources/css/perso.css}" />
 		<script th:src="@{/ressources/js/jquery.min.js}"></script>
 		<script th:src="@{/ressources/js/bootstrap.min.js}"></script>
 		<script th:src="@{/ressources/js/site.js}"></script>
+		<script th:src="@{/ressources/js/audio.js}"></script>
 		<!-- <script th:src="@{/ressources/js/init.js}"></script> -->
 		<link rel="stylesheet" th:href="@{/ressources/css/skel.css}" />
 		<link rel="stylesheet" th:href="@{/ressources/css/style.css}" />
 		<link rel="stylesheet" th:href="@{/ressources/css/style-wide.css}" />
 		<link rel="stylesheet" th:href="@{/ressources/css/style-noscript.css}" />
+		<link rel="stylesheet" th:href="@{/ressources/css/perso.css}" />
 		<!--[if lte IE 8]><link rel="stylesheet" th:href="@{/ressources/css/ie/v8.css}" /><![endif]-->
 		<!--[if lte IE 9]><link rel="stylesheet" th:href="@{/ressources/css/ie/v9.css}" /><![endif]-->
 		<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
@@ -50,16 +51,14 @@
 			    </div>
 			  </div>
 			</div>
-			<h1 id="logo">
-				Muzikkloud <span>by Gus &amp; Frodon</span>
-			</h1>
+			
 			<nav id="nav">
 				<ul>
-					<li class="current"><a th:href="@{'/'}">Bienvenue</a></li>
-					<li class="_songs" ><a href="songs">Toute la musique</a></li>
-					<li class="_artists"><a href="artists">Les artistes</a></li>
-					<li class="_albums"><a href="albums">Les albums</a></li>
-					<li class="_GF"><a href="technologies">Gus &amp; Frodon</a></li>
+					<li class="current"><a class="home navLink" th:href="@{'/'}">Bienvenue</a></li>
+					<li class="_songs" ><a class="navLink" href="songs">Toute la musique</a></li>
+					<li class="_artists"><a class="navLink" href="artists">Les artistes</a></li>
+					<li class="_albums"><a class="navLink" href="albums">Les albums</a></li>
+					<li class="_GF"><a class="navLink" href="technologies">Gus &amp; Frodon</a></li>
 					<li sec:authorize="isAnonymous()">
 						<a href="#" data-toggle="modal" data-target="#login" id="coButton" class="button special connection">Connexion</a>
 					</li>

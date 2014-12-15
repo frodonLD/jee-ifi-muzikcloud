@@ -4,31 +4,50 @@
 		th:include="common/layout::head">
 	</head>
 	<body id="frontBody" class="index">
-		<div class="hidden">
-			<audio controls="" autoplay="" loop="" th:src="${'audios/_Falsetto.mp3'}">
+		<div id="myAudio" class="hidden">
+			<audio controls="" autoplay="" th:src="${'audios/_Falsetto.mp3'}">
 		    </audio>
 		</div>
-		<!-- Header -->
-		<header id="header" class="alt" th:include="common/layout::nav">
-		</header>
+		
+		
+		<!-- Lecteur -->
+		<div class="mPlayer">
+			<h1>Muzikkloud</h1>
+			<div id="wrapper" class="mWrapper">
+		      <h3 style="text-align:center;">Ma playlist</h3>
+		      <audio preload=""></audio>
+		      <ol>                                                                
+		      </ol>
+		    </div>
+		</div>
+		
 		<!-- Banner -->
-		<section id="banner">
-			<div class="inner">
-				<div class="off" data-toggle="tooltip" data-placement="left" title="Couper la musique"></div>
-				<header>
-					<h2>MUZIKKLOUD</h2>
-				</header>
-				<p>
-					<strong>Muzikkloud</strong>, le <br /> meilleur de la
-					<br /> la musique.
-				</p>
-				<footer>
-					<ul class="buttons vertical">
-						<li><a href="songs" class="button fit scrolly">Débuter l'expérience...</a></li>
-					</ul>
-				</footer>
+		<div class="mContainer">
+			<!-- Header -->
+			<header id="header" class="alt" th:include="common/layout::nav">
+			</header>
+			
+			<div id="reloadContent">
+				<section id="banner">
+					<div class="inner">
+						<div class="off" data-toggle="tooltip" data-placement="left" title="Couper la musique"></div>
+						<header>
+							<h2>MUZIKKLOUD</h2>
+						</header>
+						<p>
+							<strong>Muzikkloud</strong>, le <br /> meilleur de la
+							<br /> la musique.
+						</p>
+						<footer>
+							<ul class="buttons vertical">
+								<li><a href="songs" class="button fit scrolly">Débuter l'expérience...</a></li>
+							</ul>
+						</footer>
+					</div>
+				</section>
 			</div>
-		</section>
+		</div>
+		
 		<div class="" th:if="${((param.loginError != null) and (param.loginError[0] == 'true'))}">
 			<script>
 				loginFormDisplayInError();
@@ -40,10 +59,4 @@
 			</script>
 		</div>
 	</body>
-	<script>
-		$(document).ready(function() {
-			var a = document.getElementsByTagName("audio")[0];
-			setTimeout(function(){ a.remove(); $(".off").css("visibility", "hidden"); $(".tooltip.fade.left.in").remove();}, 14000);
-		});
-	</script>
 </html>

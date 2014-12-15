@@ -1,7 +1,9 @@
 package org.ifi.com.muzikKloud.entity;
 
 import java.io.Serializable;
+
 import javax.persistence.*;
+
 import java.util.Date;
 
 
@@ -68,7 +70,7 @@ public class Commentaire implements Serializable {
 
 
 	//bi-directional many-to-one association to Song
-	@ManyToOne
+	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="id_song", nullable=false)
 	public Song getSong() {
 		return this.song;

@@ -1,55 +1,37 @@
 <!DOCTYPE html>  
 <html xmlns:th="http://www.thymeleaf.org"> 
-	<head th:with="title='Muzikkloud - Toute la musique'"  th:include="common/layout::head">
+	<!-- <head th:with="title='Muzikkloud - Toute la musique'"  th:include="common/layout::head">
 	</head>
 	<body id="frontBody">
 	
-	<!-- Header -->
-		<header id="header" class="skel-layers-fixed" th:include="common/layout::nav">
-		</header>
-		
-		<!-- Banner -->
-		<!-- Main -->
-			<article id="main">
-				<!-- <header class="special container">
-					<span class="icon fa-mobile"></span>
-					<h2>And finally there's <strong>No Sidebar</strong></h2>
-					<p>Where that in the center faces the nameless horrors alone.</p>
-				</header> -->
-				<section class="wrapper style1 container special">
-					<div class="row">
-						<div class="3u 12u(2)" th:each="song : ${songs}">
-							<section class="sectionBox">
-								<header class="title">
-									<h3><a th:text="${song.titre}" th:href="${'song?id='+song.getId()}"></a></h3>
-								</header>
-								<div class="songDesc">
-									<div class="descLine"><span class="desc">Année : </span><span class="attr" th:text="${song.getDateParution()}"></span></div>
-									<div class="descLine"><span class="desc">Album : </span><span class="attr"><a th:if="${song.album} != null" th:text="${song.album.titre}" th:href="${'album?id='+song.album.getId()}"></a><span th:if="${song.album} == null">Album Inconnu</span></span></div>
-									<!-- <div class="descLine"><span class="desc">Artiste(s) : </span>
-										<div class="artistContainer">
-											<span class="attr" th:text="${song.artists[0].name}"></span>
-											<span class="attr" th:if="${#arrays.length(song.artists)} &gt; 2" th:text="${song.artists[1].name}"></span>
-											<span class="attr" th:if="${#arrays.length(song.artists)} &gt; 2">...</span>
-										</div>
-									</div> -->
-								</div>
-								<footer>
-									<ul class="buttons">
-										<li><a th:href="${'song?id='+song.getId()}" class="button small">&Eacute;couter</a></li>
-									</ul>
-								</footer>
-							</section>
+		<div class="mContainer">
+			<header id="header" class="alt" th:include="common/layout::nav">
+			</header>
+			<div id="reloadContent">-->
+				<article id="main">
+					<section class="wrapper style1 container special">
+						<div class="row">
+							<div class="3u 12u(2)" th:each="song : ${songs}">
+								<section class="sectionBox">
+									<header class="title">
+										<h3><a class="navLink" th:text="${song.titre}" th:href="${'song?id='+song.getId()}"></a></h3>
+									</header>
+									<div class="songDesc">
+										<div class="descLine"><span class="desc">Année : </span><span class="attr" th:text="${song.getDateParution()}"></span></div>
+										<div class="descLine"><span class="desc">Album : </span><span class="attr"><a th:if="${song.album} != null" th:text="${song.album.titre}" th:href="${'album?id='+song.album.getId()}"></a><span th:if="${song.album} == null">Album Inconnu</span></span></div>
+									</div>
+									<footer>
+										<ul class="buttons">
+											<li><a th:href="${'song?id='+song.getId()}" class="navLink button small">. . .</a></li>
+										</ul>
+									</footer>
+								</section>
+							</div>
+						     
 						</div>
-					</div>
-				</section>
-			</article>
+					</section>
+				</article>
+			<!--</div>
+		</div>-->
 	
-	</body>
-	<script>
-		$(document).ready(function() {
-			$(".current").removeClass("current");
-			$("._songs").addClass("current");
-		});
-	</script>
 </html>

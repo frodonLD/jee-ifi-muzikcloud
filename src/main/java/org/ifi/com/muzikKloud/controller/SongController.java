@@ -43,11 +43,15 @@ public class SongController {
 	
 	private static final Logger logger = Logger.getLogger(AdminController.class);
 	
-	private ClassPathXmlApplicationContext appContext = new ClassPathXmlApplicationContext(
-			new String[] { "spring-jms.xml" });
+	//private ClassPathXmlApplicationContext appContext = new ClassPathXmlApplicationContext(new String[] { "spring-jms.xml" });
 	
 	
-	@RequestMapping("/songs")
+	/*
+	 * FRONT RESOLVERS
+	 */
+	
+	
+	@RequestMapping(value="/songs", method = RequestMethod.POST)
 	public String showAllsong(Model model){
 		List<Song> allSongs = songService.getLastSongsAdded(0);
 		model.addAttribute("songs", allSongs );
@@ -55,7 +59,7 @@ public class SongController {
 	}
 	
 	
-	@RequestMapping("/song")
+	@RequestMapping(value="/song", method = RequestMethod.POST)
     public String showSong(@RequestParam(value="id", required=true)int idSong, Model model) {
 		Song s = songService.getSong(idSong);
 		int note = 0, i = 0, temp = 0;
@@ -78,6 +82,72 @@ public class SongController {
 		return "song";
 	}
 	
+	@RequestMapping(value="/artists", method = RequestMethod.POST)
+	public String showAllArtists(Model model){
+		model.addAttribute("allArtists", artistService.getAllArtists());
+		return "artists";
+	} 
+	
+	@RequestMapping(value="/artist", method = RequestMethod.POST)
+    public String showArtistSongs(@RequestParam(value="id", required=true)int idArtist, Model model) {
+		Artist a = artistService.getArtist(idArtist);
+		if(a != null){
+			model.addAttribute("a", a);
+			model.addAttribute("songs", this.artistService.getAllSongOfArtist(a));
+			return "artistSong";
+		}
+		return "404";
+		
+	}
+	
+	@RequestMapping("/admin/artists")
+	public String showAllArtistsInAdmin(Model model){
+		model.addAttribute("allArtists", artistService.getAllArtists());
+		return "admin/artists";
+	} 
+	
+	@RequestMapping(value="/albums", method = RequestMethod.POST)
+	public String showAllAlbums(Model model){
+		List<Album> allAlbums = albumService.getAllAlbums();
+		model.addAttribute("allAlbums", allAlbums );
+		return "albums";
+	} 
+	
+	@RequestMapping(value="/album", method = RequestMethod.POST) 
+    public String showAlbumSongs(@RequestParam(value="id", required=true)int idAlbum, Model model) {
+		Album al = albumService.getAlbum(idAlbum);
+		if(al != null){
+			model.addAttribute("al", al);
+			return "albumSong";
+		}
+		return "404";
+	}
+	
+	@RequestMapping(value = "/commentsong", method = RequestMethod.POST, consumes = "application/json", produces = "application/json")
+	public @ResponseBody
+	JsonResponse insertComment(@RequestBody CommentTemp c) {
+		boolean status = songService.commentSong(c.idSong, c.author, c.comment, Calendar.getInstance().getTime());
+		if (!status)
+			return new JsonResponse("KO", "Erreur lors de la création du commentaire");
+		else{
+//			JmsProducer jmsProducer = (JmsProducer) this.appContext.getBean("jmsProducer");
+//			jmsProducer.envoyerMessage("Test");
+			return new JsonResponse("OK", "");
+		}
+	}
+	
+	
+	/*
+	 * ADMIN RESOLVERS
+	 */
+	
+	@RequestMapping("/admin/albums")
+	public String showAllAlbumsInAdmin(Model model){
+		List<Album> allAlbums = albumService.getAllAlbums();
+		model.addAttribute("allAlbums", allAlbums );
+		return "admin/albums";
+	} 
+	
 	@RequestMapping("/admin/addsongs")
 	public String addSongs() {
 		return "admin/addsongs";
@@ -96,7 +166,6 @@ public class SongController {
 		model.addAttribute("songs", songs );
 		return "admin/songs";
 	}
-	
 	
 	@RequestMapping("/admin/song")
     public String showSongInAdmin(@RequestParam(value="id", required=true)int idSong, Model model) {
@@ -130,67 +199,4 @@ public class SongController {
 		model.addAttribute("error", error);
 		return "redirect:/admin/songs";
 	}
-	
-	@RequestMapping("/artists")
-	public String showAllArtists(Model model){
-		model.addAttribute("allArtists", artistService.getAllArtists());
-		return "artists";
-	} 
-	
-	@RequestMapping("/artist")
-    public String showArtistSongs(@RequestParam(value="id", required=true)int idArtist, Model model) {
-		Artist a = artistService.getArtist(idArtist);
-		if(a != null){
-			model.addAttribute("a", a);
-			model.addAttribute("songs", this.artistService.getAllSongOfArtist(a));
-			return "artistSong";
-		}
-		return "404";
-		
-	}
-	
-	@RequestMapping("/admin/artists")
-	public String showAllArtistsInAdmin(Model model){
-		model.addAttribute("allArtists", artistService.getAllArtists());
-		return "admin/artists";
-	} 
-	
-	
-	@RequestMapping("/albums")
-	public String showAllAlbums(Model model){
-		List<Album> allAlbums = albumService.getAllAlbums();
-		model.addAttribute("allAlbums", allAlbums );
-		return "albums";
-	} 
-	
-	@RequestMapping("/admin/albums")
-	public String showAllAlbumsInAdmin(Model model){
-		List<Album> allAlbums = albumService.getAllAlbums();
-		model.addAttribute("allAlbums", allAlbums );
-		return "admin/albums";
-	} 
-	
-	@RequestMapping("/album")
-    public String showAlbumSongs(@RequestParam(value="id", required=true)int idAlbum, Model model) {
-		Album al = albumService.getAlbum(idAlbum);
-		if(al != null){
-			model.addAttribute("al", al);
-			return "albumSong";
-		}
-		return "404";
-	}
-	
-	@RequestMapping(value = "/commentsong", method = RequestMethod.POST, consumes = "application/json", produces = "application/json")
-	public @ResponseBody
-	JsonResponse insertComment(@RequestBody CommentTemp c) {
-		boolean status = songService.commentSong(c.idSong, c.author, c.comment, Calendar.getInstance().getTime());
-		if (!status)
-			return new JsonResponse("KO", "Erreur lors de la création du commentaire");
-		else{
-			JmsProducer jmsProducer = (JmsProducer) this.appContext.getBean("jmsProducer");
-			jmsProducer.envoyerMessage("Test");
-			return new JsonResponse("OK", "");
-		}
-	}
-
 }
