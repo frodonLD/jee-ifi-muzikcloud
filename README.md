@@ -1,3 +1,9 @@
-#Dubus Guillaume & Gbaguidi Fréjus
-#Master TIIR 2014-2015
-#This is the repository for our IFI project
+# jee-ifi-muzikcloud
+
+## Authors
+- Dubus Guillaume
+- Gbaguidi FrÃ©jus
+
+**Class: Master TIIR 2014-2015**
+
+This is the repository for our IFI project
